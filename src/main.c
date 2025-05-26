@@ -27,6 +27,20 @@ int run_vector() {
   printf("Push: %d\n", push(vec_ptr, 18));
   printf("Pop: %d\n", pop(vec_ptr));
   printf("Pop: %d\n", pop(vec_ptr));
+  printf("Pop: %d\n", pop(vec_ptr));
+  printf("Pop: %d\n", pop(vec_ptr));
+  printf("Pop: %d\n", pop(vec_ptr));
+  printf("Pop: %d\n", pop(vec_ptr));
+  printf("Pop: %d\n", pop(vec_ptr));
+  printf("Pop: %d\n", pop(vec_ptr));
+  printf("Pop: %d\n", pop(vec_ptr));
+  printf("Pop: %d\n", pop(vec_ptr));
+  printf("Pop: %d\n", pop(vec_ptr));
+  printf("Pop: %d\n", pop(vec_ptr));
+  printf("Pop: %d\n", pop(vec_ptr));
+  printf("Pop: %d\n", pop(vec_ptr));
+  printf("Pop: %d\n", pop(vec_ptr));
+  printf("Pop: %d\n", pop(vec_ptr));
   printf("Size: %d\n", vec.size);
   printf("Capacity: %d\n", vec.capacity);
 
