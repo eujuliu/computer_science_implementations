@@ -1,0 +1,5 @@
+test/Testvector.c:27:test_add:PASS
+
+-----------------------
+1 Tests 0 Failures 0 Ignored 
+OK
