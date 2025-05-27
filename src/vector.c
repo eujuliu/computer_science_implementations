@@ -13,29 +13,34 @@ Vector *resize(Vector *vec, int new_size) {
     return vec;
   }
 
-  int *new_ptr = (int *)malloc(new_capacity * sizeof(int));
+  int *ptr = (int *)realloc(vec->data, new_capacity * sizeof(int));
 
-  if (new_ptr == NULL) {
-    perror("Error trying to shrink array capacity");
-
+  if (ptr == NULL) {
+    perror("Error resizing array data");
+    free(ptr);
     return vec;
   }
 
-  for (int i = 0; i < vec->size; i++) {
-    *(new_ptr + i) = *(vec->data + i);
-  }
-
-  free(vec->data);
-
-  vec->data = new_ptr;
+  vec->data = ptr;
   vec->capacity = new_capacity;
 
   return vec;
 }
 
 int at(Vector *vec, int index) {
-  if (vec == NULL || (vec != NULL && index > vec->size - 1)) {
+  if (vec == NULL) {
+    perror("Vector have no data");
+
     return -1;
+  }
+
+  if (vec != NULL &&
+      (index > vec->size - 1 || index < vec->capacity - vec->capacity * 2)) {
+    return -1;
+  }
+
+  if (index < 0) {
+    return vec->data[vec->capacity + (index)];
   }
 
   return vec->data[index];
