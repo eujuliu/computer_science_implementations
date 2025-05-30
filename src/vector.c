@@ -67,3 +67,33 @@ int pop(Vector *vec) {
 
   return *value;
 }
+
+int insert(Vector *vec, int index, int item) {
+  if (index < 0 || index > vec->size - 1) {
+    perror("Index out of the range");
+    return -1;
+  }
+
+  if (vec->size + 1 >= vec->capacity) {
+    vec = resize(vec, vec->capacity);
+  }
+
+  int new = item;
+  int old = *(vec->data + index);
+
+  for (int i = index; i <= vec->size; i++) {
+    old = *(vec->data + index);
+    *(vec->data + index) = new;
+    new = old;
+  }
+
+  vec->size++;
+
+  return *(vec->data + index);
+}
+
+int prepend(Vector *vec, int item) {
+  insert(vec, 0, item);
+
+  return *(vec->data);
+}
