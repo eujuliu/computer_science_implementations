@@ -78,12 +78,19 @@ void test_insert() {
   int output1 = insert(&vector, 4, 8);
   int output2 = insert(&vector, -1, 10);
   int output3 = insert(&vector, 20, 10);
+  int output4 = insert(&vector, 6, 23);
 
   TEST_ASSERT_EQUAL(8, output1);
   TEST_ASSERT_EQUAL(-1, output2);
   TEST_ASSERT_EQUAL(-1, output3);
+  TEST_ASSERT_EQUAL(23, output4);
+  TEST_ASSERT_EQUAL(4, vector.data[3]);
   TEST_ASSERT_EQUAL(8, vector.data[4]);
-  TEST_ASSERT_EQUAL(7, vector.size);
+  TEST_ASSERT_EQUAL(5, vector.data[5]);
+  TEST_ASSERT_EQUAL(23, vector.data[6]);
+  TEST_ASSERT_EQUAL(6, vector.data[7]);
+  TEST_ASSERT_EQUAL(8, vector.size);
+  TEST_ASSERT_EQUAL(16, vector.capacity);
 }
 
 void test_prepend() {
@@ -96,6 +103,29 @@ void test_prepend() {
   TEST_ASSERT_EQUAL(12, output1);
   TEST_ASSERT_EQUAL(12, *(vector.data));
   TEST_ASSERT_EQUAL(7, vector.size);
+  TEST_ASSERT_EQUAL(16, vector.capacity);
+
+  for (int i = 1; i < 7; i++) {
+    TEST_ASSERT_EQUAL(i, *(vector.data + i));
+  }
+}
+
+void test_delete_it() {
+  for (int i = 0; i < 6; i++) {
+    push(&vector, i + 1);
+  }
+
+  int output1 = delete_it(&vector, 0);
+
+  TEST_ASSERT_EQUAL(1, output1);
+
+  for (int i = 0; i < vector.size; i++) {
+    TEST_ASSERT_EQUAL(i + 2, vector.data[i]);
+  }
+
+  int output2 = delete_it(&vector, 4);
+
+  TEST_ASSERT_EQUAL(6, output2);
 }
 
 void setUp() {
@@ -126,6 +156,7 @@ int main(void) {
   RUN_TEST(test_resize);
   RUN_TEST(test_insert);
   RUN_TEST(test_prepend);
+  RUN_TEST(test_delete_it);
 
   UNITY_END();
 

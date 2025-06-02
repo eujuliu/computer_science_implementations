@@ -74,26 +74,54 @@ int insert(Vector *vec, int index, int item) {
     return -1;
   }
 
-  if (vec->size + 1 >= vec->capacity) {
-    vec = resize(vec, vec->capacity);
-  }
+  resize(vec, vec->size + 1);
 
   int new = item;
   int old = *(vec->data + index);
 
+  vec->size++;
+
   for (int i = index; i <= vec->size; i++) {
-    old = *(vec->data + index);
-    *(vec->data + index) = new;
+    old = *(vec->data + i);
+    *(vec->data + i) = new;
     new = old;
   }
-
-  vec->size++;
 
   return *(vec->data + index);
 }
 
 int prepend(Vector *vec, int item) {
-  insert(vec, 0, item);
+  resize(vec, vec->size + 1);
+
+  int new = item;
+  int old = *(vec->data);
+
+  vec->size++;
+
+  for (int i = 0; i <= vec->size; i++) {
+    old = *(vec->data + i);
+    *(vec->data + i) = new;
+    new = old;
+  }
 
   return *(vec->data);
+}
+
+int delete_it(Vector *vec, int index) {
+  if (index < 0 || index > vec->size - 1) {
+    perror("Index out of the range");
+    return -1;
+  }
+
+  int removed = *(vec->data + index);
+
+  for (int i = index; i <= vec->size; i++) {
+    *(vec->data + i) = *(vec->data + i + 1);
+  }
+
+  vec->size -= 1;
+
+  resize(vec, vec->size);
+
+  return removed;
 }
