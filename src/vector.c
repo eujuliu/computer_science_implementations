@@ -47,7 +47,7 @@ int at(Vector *vec, int index) {
 }
 
 int push(Vector *vec, int value) {
-  vec = resize(vec, vec->size + 1);
+  resize(vec, vec->size + 1);
 
   *(vec->data + vec->size) = value;
   vec->size += 1;
@@ -63,7 +63,7 @@ int pop(Vector *vec) {
   *(vec->data + index) = 0;
   vec->size = index;
 
-  vec = resize(vec, vec->size);
+  resize(vec, vec->size);
 
   return *value;
 }
@@ -94,7 +94,7 @@ int prepend(Vector *vec, int item) {
   resize(vec, vec->size + 1);
 
   int new = item;
-  int old = *(vec->data);
+  int old = 0;
 
   vec->size++;
 
@@ -124,4 +124,31 @@ int delete_it(Vector *vec, int index) {
   resize(vec, vec->size);
 
   return removed;
+}
+
+int remove_it(Vector *vec, int item) {
+  int count = 0;
+
+  for (int i = 0; i < vec->size; i++) {
+    if (*(vec->data + i) == item) {
+      count++;
+      continue;
+    }
+
+    *(vec->data + (i - count)) = *(vec->data + i);
+  }
+
+  vec->size -= count;
+
+  return count;
+}
+
+int find(Vector *vec, int item) {
+  for (int i = 0; i < vec->size; i++) {
+    if (*(vec->data + i) == item) {
+      return i;
+    }
+  }
+
+  return -1;
 }
