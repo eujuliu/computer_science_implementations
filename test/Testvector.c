@@ -1,4 +1,4 @@
-#include "../src/vector.h"
+#include "../include/vector.h"
 #include "../unity/src/unity.h"
 #include <stdlib.h>
 

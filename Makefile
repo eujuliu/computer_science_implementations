@@ -56,8 +56,6 @@ test: $(BUILD_PATHS) $(RESULTS)
 
 build: $(BUILD_PATHS) main.$(TARGET_EXTENSION)
 
-
-
 main.$(TARGET_EXTENSION): $(OBJS)
 	$(LINK) -o $@ $^
 
@@ -65,7 +63,7 @@ $(PATHR)%.txt: $(PATHB)%.$(TARGET_EXTENSION)
 	-./$< > $@ 2>&1
 
 $(PATHB)Test%.$(TARGET_EXTENSION): $(PATHO)Test%.o $(PATHO)%.o $(PATHO)unity.o #$(PATHD)Test%.d
-	$(LINK) -o $@ $^
+	$(LINK) -o $@ $^ -lm
 
 $(PATHO)%.o:: $(PATHT)%.c
 	$(COMPILE) $(CFLAGS) $< -o $@
