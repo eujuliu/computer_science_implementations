@@ -15,10 +15,10 @@ typedef struct {
 char * to_string(LinkedList *ll);
 int push_back(LinkedList *ll, int value);
 int push_front(LinkedList *ll, int value);
+int value_at(LinkedList *ll, int index);
 
-// int value_at(LinkedList *ll, int index);
-// int pop_front(LinkedList *ll);
-// int pop_back(LinkedList *ll);
+int pop_front(LinkedList *ll);
+int pop_back(LinkedList *ll);
 // int front(LinkedList *ll);
 // int back(LinkedList *ll);
 // int insert(LinkedList *ll, int index, int value);

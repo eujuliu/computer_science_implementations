@@ -8,10 +8,10 @@ LinkedList linked_list;
 void test_to_string() {
   TEST_ASSERT_EQUAL(0, linked_list.size);
   linked_list.size += 5;
-  char * expected = "1 -> 2 -> 3 -> 4 -> 5";
+  char *expected = "1 -> 2 -> 3 -> 4 -> 5";
 
   for (int i = 0; i < 5; i++) {
-    Node * node = (Node *)malloc(sizeof(Node));
+    Node *node = (Node *)malloc(sizeof(Node));
     node->value = i + 1;
     node->next = NULL;
 
@@ -24,22 +24,22 @@ void test_to_string() {
     }
   }
 
-  char * output = to_string(&linked_list);
+  char *output = to_string(&linked_list);
 
   TEST_ASSERT_EQUAL(0, strcmp(output, expected));
 }
 
 void test_push_back() {
   TEST_ASSERT_EQUAL(0, linked_list.size);
-  char * expected = "10 -> 11 -> 12 -> 13 -> 14";
+  char *expected = "10 -> 11 -> 12 -> 13 -> 14";
 
-  int output1 = push_back(&linked_list, 10);
-  int output2 = push_back(&linked_list, 11);
-  int output3 = push_back(&linked_list, 12);
-  int output4 = push_back(&linked_list, 13);
-  int output5 = push_back(&linked_list, 14);
+  push_back(&linked_list, 10);
+  push_back(&linked_list, 11);
+  push_back(&linked_list, 12);
+  push_back(&linked_list, 13);
+  push_back(&linked_list, 14);
 
-  char * llstr = to_string(&linked_list);
+  char *llstr = to_string(&linked_list);
 
   TEST_ASSERT_EQUAL(0, strcmp(llstr, expected));
   TEST_ASSERT_EQUAL_INT(5, linked_list.size);
@@ -47,18 +47,89 @@ void test_push_back() {
 
 void test_push_front() {
   TEST_ASSERT_EQUAL_INT(0, linked_list.size);
-  char * expected = "24 -> 23 -> 22 -> 21 -> 20";
+  char *expected = "24 -> 23 -> 22 -> 21 -> 20";
 
-  int output1 = push_front(&linked_list, 20);
-  int output2 = push_front(&linked_list, 21);
-  int output3 = push_front(&linked_list, 22);
-  int output4 = push_front(&linked_list, 23);
-  int output5 = push_front(&linked_list, 24);
+  push_front(&linked_list, 20);
+  push_front(&linked_list, 21);
+  push_front(&linked_list, 22);
+  push_front(&linked_list, 23);
+  push_front(&linked_list, 24);
 
-  char * llstr = to_string(&linked_list);
+  char *llstr = to_string(&linked_list);
 
   TEST_ASSERT_EQUAL(0, strcmp(llstr, expected));
   TEST_ASSERT_EQUAL_INT(5, linked_list.size);
+}
+
+void test_value_at() {
+  push_back(&linked_list, 1);
+  push_back(&linked_list, 2);
+  push_back(&linked_list, 3);
+  push_back(&linked_list, 4);
+  push_back(&linked_list, 5);
+
+  TEST_ASSERT_EQUAL_INT(4, value_at(&linked_list, 3));
+  TEST_ASSERT_EQUAL_INT(1, value_at(&linked_list, 0));
+  TEST_ASSERT_EQUAL_INT(5, value_at(&linked_list, 4));
+  TEST_ASSERT_EQUAL_INT(5, linked_list.size);
+}
+
+void test_pop_front() {
+  push_back(&linked_list, 1);
+  push_back(&linked_list, 2);
+  push_back(&linked_list, 3);
+  push_back(&linked_list, 4);
+  push_back(&linked_list, 5);
+
+  TEST_ASSERT_EQUAL_INT(5, linked_list.size);
+
+  TEST_ASSERT_EQUAL_INT(1, pop_front(&linked_list));
+  TEST_ASSERT_EQUAL_INT(4, linked_list.size);
+
+  TEST_ASSERT_EQUAL_INT(2, pop_front(&linked_list));
+  TEST_ASSERT_EQUAL_INT(3, linked_list.size);
+
+  TEST_ASSERT_EQUAL_INT(3, pop_front(&linked_list));
+  TEST_ASSERT_EQUAL_INT(2, linked_list.size);
+
+  TEST_ASSERT_EQUAL_INT(4, pop_front(&linked_list));
+  TEST_ASSERT_EQUAL_INT(1, linked_list.size);
+
+  TEST_ASSERT_EQUAL_INT(5, pop_front(&linked_list));
+  TEST_ASSERT_EQUAL_INT(0, linked_list.size);
+
+  TEST_ASSERT_EQUAL_INT(-1, pop_front(&linked_list));
+  TEST_ASSERT_NULL(linked_list.head);
+  TEST_ASSERT_NULL(linked_list.tail);
+}
+
+void test_pop_back() {
+  push_back(&linked_list, 1);
+  push_back(&linked_list, 2);
+  push_back(&linked_list, 3);
+  push_back(&linked_list, 4);
+  push_back(&linked_list, 5);
+
+  TEST_ASSERT_EQUAL_INT(5, linked_list.size);
+
+  TEST_ASSERT_EQUAL_INT(5, pop_back(&linked_list));
+  TEST_ASSERT_EQUAL_INT(4, linked_list.size);
+
+  TEST_ASSERT_EQUAL_INT(4, pop_back(&linked_list));
+  TEST_ASSERT_EQUAL_INT(3, linked_list.size);
+
+  TEST_ASSERT_EQUAL_INT(3, pop_back(&linked_list));
+  TEST_ASSERT_EQUAL_INT(2, linked_list.size);
+
+  TEST_ASSERT_EQUAL_INT(2, pop_back(&linked_list));
+  TEST_ASSERT_EQUAL_INT(1, linked_list.size);
+
+  TEST_ASSERT_EQUAL_INT(1, pop_back(&linked_list));
+  TEST_ASSERT_EQUAL_INT(0, linked_list.size);
+
+  TEST_ASSERT_EQUAL_INT(-1, pop_back(&linked_list));
+  TEST_ASSERT_NULL(linked_list.head);
+  TEST_ASSERT_NULL(linked_list.tail);
 }
 
 void setUp() {
@@ -71,7 +142,7 @@ void tearDown() {
   Node *crr = linked_list.head;
 
   while (crr != NULL) {
-    Node * next = crr->next;
+    Node *next = crr->next;
 
     free(crr);
     crr = next;
@@ -84,6 +155,9 @@ int main(void) {
   RUN_TEST(test_to_string);
   RUN_TEST(test_push_back);
   RUN_TEST(test_push_front);
+  RUN_TEST(test_value_at);
+  RUN_TEST(test_pop_front);
+  RUN_TEST(test_pop_back);
 
   UNITY_END();
 

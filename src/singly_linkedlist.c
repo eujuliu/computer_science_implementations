@@ -89,3 +89,67 @@ int push_front(LinkedList *ll, int value) {
 
   return (*ll->head).value;
 }
+
+int value_at(LinkedList *ll, int index) {
+  Node *node = ll->head;
+
+  while (index) {
+    if (!node) {
+      return -1;
+    }
+
+    node = node->next;
+    index--;
+  }
+
+  return node->value;
+}
+
+int pop_front(LinkedList *ll) {
+  if (!ll->head) {
+    return -1;
+  }
+
+  Node *removed = ll->head;
+
+  ll->head = ll->head->next;
+
+  ll->size--;
+
+  if (!ll->head) {
+    ll->tail = NULL;
+  }
+
+  int value = removed->value;
+  free(removed);
+
+  return value;
+}
+
+int pop_back(LinkedList *ll) {
+  if (ll->head == NULL) {
+    return -1;
+  }
+
+  int value = ll->tail->value;
+  ll->size--;
+
+  if (ll->head == ll->tail) {
+    ll->head = NULL;
+    free(ll->tail);
+    ll->tail = NULL;
+  } else {
+    Node * node = ll->head;
+    while (node->next != ll->tail) {
+      node = node->next;
+    }
+
+    Node * remove = node->next;
+
+    node->next = NULL;
+    ll->tail = node;
+    free(remove);
+  }
+
+  return value;
+}
