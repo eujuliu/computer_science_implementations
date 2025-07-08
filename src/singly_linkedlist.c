@@ -132,24 +132,57 @@ int pop_back(LinkedList *ll) {
   }
 
   int value = ll->tail->value;
-  ll->size--;
 
   if (ll->head == ll->tail) {
     ll->head = NULL;
     free(ll->tail);
     ll->tail = NULL;
   } else {
-    Node * node = ll->head;
+    Node *node = ll->head;
     while (node->next != ll->tail) {
       node = node->next;
     }
 
-    Node * remove = node->next;
+    Node *remove = node->next;
 
     node->next = NULL;
     ll->tail = node;
     free(remove);
   }
 
+  ll->size--;
+
   return value;
+}
+
+int insert(LinkedList *ll, int index, int value) {
+  if (index < -1 || index > ll->size - 1) {
+    return -1;
+  }
+
+  if (index == 0) {
+    return push_front(ll, value);
+  }
+
+  if (index == -1 || index == ll->size - 1) {
+    return push_back(ll, value);
+  }
+
+  Node *node = (Node *)malloc(sizeof(Node));
+
+  node->value = value;
+  node->next = NULL;
+
+  int count = index;
+  Node *crr = ll->head;
+  while (count > -2) {
+    crr = crr->next;
+    count--;
+  }
+
+  node->next = crr->next;
+  crr->next = node;
+  ll->size++;
+
+  return node->value;
 }
