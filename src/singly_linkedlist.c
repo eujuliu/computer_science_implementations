@@ -175,7 +175,8 @@ int insert(LinkedList *ll, int index, int value) {
 
   int count = index;
   Node *crr = ll->head;
-  while (count > -2) {
+
+  while (count > 0) {
     crr = crr->next;
     count--;
   }
@@ -183,6 +184,49 @@ int insert(LinkedList *ll, int index, int value) {
   node->next = crr->next;
   crr->next = node;
   ll->size++;
+
+  return node->value;
+}
+
+int erase(LinkedList *ll, int index) {
+  if (!ll->head) {
+    return -1;
+  }
+
+  if (index == 0) {
+    return pop_front(ll);
+  }
+
+  if (index == ll->size - 1 || index == -1) {
+    return pop_back(ll);
+  }
+
+  int count = index -1;
+  Node *crr = ll->head;
+
+  while (count > 0) {
+    crr = crr->next;
+    count--;
+  }
+
+  Node * remove = crr->next;
+  int value = remove->value;
+  crr->next = crr->next->next;
+  ll->size--;
+
+  free(remove);
+
+  return value;
+}
+
+int value_n_from_end(LinkedList *ll, int n) {
+  int count = ll->size - n;
+  Node * node = ll->head;
+
+  while (count) {
+    node = node->next;
+    count--;
+  }
 
   return node->value;
 }

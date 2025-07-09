@@ -141,23 +141,62 @@ void test_insert() {
 
   TEST_ASSERT_EQUAL_INT(5, linked_list.size);
 
+
   TEST_ASSERT_EQUAL(1, linked_list.head->value);
   TEST_ASSERT_EQUAL(9, linked_list.tail->value);
 
   TEST_ASSERT_EQUAL_INT(0, insert(&linked_list, 0, 0));
   TEST_ASSERT_EQUAL_INT(6, linked_list.size);
 
+
   TEST_ASSERT_EQUAL_INT(2, insert(&linked_list, 1, 2));
   TEST_ASSERT_EQUAL_INT(7, linked_list.size);
 
+
   TEST_ASSERT_EQUAL_INT(10, insert(&linked_list, -1, 10));
   TEST_ASSERT_EQUAL_INT(8, linked_list.size);
+
 
   TEST_ASSERT_EQUAL_INT(11, insert(&linked_list, linked_list.size -1, 11));
   TEST_ASSERT_EQUAL_INT(9, linked_list.size);
 
   TEST_ASSERT_EQUAL(0, linked_list.head->value);
   TEST_ASSERT_EQUAL(11, linked_list.tail->value);
+}
+
+void test_erase() {
+  push_back(&linked_list, 1);
+  push_back(&linked_list, 2);
+  push_back(&linked_list, 3);
+  push_back(&linked_list, 4);
+  push_back(&linked_list, 5);
+
+  TEST_ASSERT_EQUAL(5, linked_list.tail->value);
+
+  TEST_ASSERT_EQUAL_INT(1, erase(&linked_list, 0));
+  TEST_ASSERT_EQUAL_INT(4, linked_list.size);
+  TEST_ASSERT_EQUAL(2, linked_list.head->value);
+
+  TEST_ASSERT_EQUAL_INT(4, erase(&linked_list, 2));
+  TEST_ASSERT_EQUAL_INT(3, linked_list.size);
+
+  TEST_ASSERT_EQUAL_INT(5, erase(&linked_list, 2));
+  TEST_ASSERT_EQUAL_INT(2, linked_list.size);
+  TEST_ASSERT_EQUAL(3, linked_list.tail->value);
+}
+
+void test_value_n_from() {
+  push_back(&linked_list, 1);
+  push_back(&linked_list, 2);
+  push_back(&linked_list, 3);
+  push_back(&linked_list, 4);
+  push_back(&linked_list, 5);
+
+  TEST_ASSERT_EQUAL(5, value_n_from_end(&linked_list, 1));
+  TEST_ASSERT_EQUAL(4, value_n_from_end(&linked_list, 2));
+  TEST_ASSERT_EQUAL(3, value_n_from_end(&linked_list, 3));
+  TEST_ASSERT_EQUAL(2, value_n_from_end(&linked_list, 4));
+  TEST_ASSERT_EQUAL(1, value_n_from_end(&linked_list, 5));
 }
 
 void setUp() {
@@ -187,6 +226,8 @@ int main(void) {
   RUN_TEST(test_pop_front);
   RUN_TEST(test_pop_back);
   RUN_TEST(test_insert);
+  RUN_TEST(test_erase);
+  RUN_TEST(test_value_n_from);
 
   UNITY_END();
 

@@ -18,10 +18,10 @@ int push_front(LinkedList *ll, int value);
 int value_at(LinkedList *ll, int index);
 int pop_front(LinkedList *ll);
 int pop_back(LinkedList *ll);
-
 int insert(LinkedList *ll, int index, int value);
-// int erase(LinkedList *ll, int index);
-// int value_n_from_end(LinkedList *ll, int n);
+int erase(LinkedList *ll, int index);
+
+int value_n_from_end(LinkedList *ll, int n);
 // int reverse(LinkedList *ll);
 // int remove_value(LinkedList *ll, int value);
 
