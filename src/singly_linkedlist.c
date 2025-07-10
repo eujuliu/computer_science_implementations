@@ -201,7 +201,7 @@ int erase(LinkedList *ll, int index) {
     return pop_back(ll);
   }
 
-  int count = index -1;
+  int count = index - 1;
   Node *crr = ll->head;
 
   while (count > 0) {
@@ -209,7 +209,7 @@ int erase(LinkedList *ll, int index) {
     count--;
   }
 
-  Node * remove = crr->next;
+  Node *remove = crr->next;
   int value = remove->value;
   crr->next = crr->next->next;
   ll->size--;
@@ -221,7 +221,7 @@ int erase(LinkedList *ll, int index) {
 
 int value_n_from_end(LinkedList *ll, int n) {
   int count = ll->size - n;
-  Node * node = ll->head;
+  Node *node = ll->head;
 
   while (count) {
     node = node->next;
@@ -229,4 +229,72 @@ int value_n_from_end(LinkedList *ll, int n) {
   }
 
   return node->value;
+}
+
+void reverse(LinkedList *ll) {
+  LinkedList *ll2 = (LinkedList *)malloc(sizeof(LinkedList));
+
+  ll2->head = NULL;
+  ll2->tail = NULL;
+  ll2->size = ll->size;
+
+  Node *crr = ll->head;
+
+  while (crr != NULL) {
+    Node *next = crr->next;
+
+    crr->next = NULL;
+
+    if (ll2->head) {
+      crr->next = ll2->head;
+      ll2->head = crr;
+    } else {
+      ll2->head = crr;
+      ll2->tail = crr;
+    }
+
+    crr = next;
+  }
+
+  ll->head = ll2->head;
+  ll->tail = ll2->tail;
+  free(ll2);
+}
+
+int remove_value(LinkedList *ll, int value) {
+  if (ll->head == NULL) {
+    return -1;
+  }
+
+  Node *crr = ll->head;
+  Node *prev = NULL;
+  int index = 0;
+
+  while (crr != NULL) {
+    if (crr->value == value) {
+      if (prev == NULL) {
+        ll->head = crr->next;
+
+        if (ll->head == NULL) {
+          ll->tail = NULL;
+        }
+      } else {
+        prev->next = crr->next;
+
+        if (ll->tail == crr) {
+          ll->tail = prev;
+        }
+      }
+
+      free(crr);
+      ll->size--;
+      return index;
+    }
+
+    prev = crr;
+    crr = crr->next;
+    index++;
+  }
+
+  return -1;
 }

@@ -199,6 +199,50 @@ void test_value_n_from() {
   TEST_ASSERT_EQUAL(1, value_n_from_end(&linked_list, 5));
 }
 
+void test_reverse() {
+  push_back(&linked_list, 1);
+  push_back(&linked_list, 2);
+  push_back(&linked_list, 3);
+  push_back(&linked_list, 4);
+  push_back(&linked_list, 5);
+
+  char *initial = "1 -> 2 -> 3 -> 4 -> 5";
+  char *expected = "5 -> 4 -> 3 -> 2 -> 1";
+
+  char *llstr_old = to_string(&linked_list);
+
+  TEST_ASSERT_EQUAL(0, strcmp(llstr_old, initial));
+
+  reverse(&linked_list);
+
+  char *llstr = to_string(&linked_list);
+
+  TEST_ASSERT_EQUAL(0, strcmp(llstr, expected));
+  TEST_ASSERT_EQUAL(5, linked_list.size);
+}
+
+void test_remove_value() {
+  push_back(&linked_list, 1);
+  push_back(&linked_list, 2);
+  push_back(&linked_list, 3);
+  push_back(&linked_list, 4);
+  push_back(&linked_list, 5);
+
+  TEST_ASSERT_EQUAL_INT(5, linked_list.size);
+
+  TEST_ASSERT_EQUAL(0, remove_value(&linked_list, 1));
+  TEST_ASSERT_EQUAL_INT(4, linked_list.size);
+
+
+  TEST_ASSERT_EQUAL(1, remove_value(&linked_list, 3));
+  TEST_ASSERT_EQUAL_INT(3, linked_list.size);
+  TEST_ASSERT_EQUAL_INT(2, linked_list.head->value);
+
+  TEST_ASSERT_EQUAL(2, remove_value(&linked_list, 5));
+  TEST_ASSERT_EQUAL_INT(2, linked_list.size);
+  TEST_ASSERT_EQUAL_INT(4, linked_list.tail->value);
+}
+
 void setUp() {
   linked_list.head = NULL;
   linked_list.tail = NULL;
@@ -228,6 +272,8 @@ int main(void) {
   RUN_TEST(test_insert);
   RUN_TEST(test_erase);
   RUN_TEST(test_value_n_from);
+  RUN_TEST(test_reverse);
+  RUN_TEST(test_remove_value);
 
   UNITY_END();
 
