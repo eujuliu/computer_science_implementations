@@ -43,3 +43,10 @@ void free_array(Array *arr) {
 }
 
 unsigned int is_empty(Array *arr) { return arr->size == 0; }
+
+int at(Array *arr, unsigned int index) {
+  if (index >= arr->size)
+    return -1;
+
+  return *(arr->data + index);
+}

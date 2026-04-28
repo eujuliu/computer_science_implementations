@@ -19,7 +19,7 @@ void test_new_array() {
   TEST_ASSERT_EQUAL_INT(8, arr->capacity);
 }
 
-void test_is_empty() {
+void test_array_is_empty() {
   TEST_ASSERT_EQUAL_INT(0, is_empty(arr));
 
   free_array(arr);
@@ -29,6 +29,15 @@ void test_is_empty() {
   arr = new_array(data, 0);
 
   TEST_ASSERT_EQUAL_INT(1, is_empty(arr));
+}
+
+void test_array_at() {
+  TEST_ASSERT_EQUAL_INT(10, at(arr, 0));
+  TEST_ASSERT_EQUAL_INT(20, at(arr, 1));
+  TEST_ASSERT_EQUAL_INT(30, at(arr, 2));
+  TEST_ASSERT_EQUAL_INT(40, at(arr, 3));
+  TEST_ASSERT_EQUAL_INT(50, at(arr, 4));
+  TEST_ASSERT_EQUAL_INT(-1, at(arr, 5));
 }
 
 void setUp() {
@@ -43,7 +52,8 @@ int main(void) {
   UNITY_BEGIN();
 
   RUN_TEST(test_new_array);
-  RUN_TEST(test_is_empty);
+  RUN_TEST(test_array_is_empty);
+  RUN_TEST(test_array_at);
 
   UNITY_END();
 

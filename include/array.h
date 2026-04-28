@@ -14,5 +14,6 @@ typedef struct {
 Array *new_array(int *args, unsigned int size);
 void free_array(Array *arr);
 unsigned int is_empty(Array *arr);
+int at(Array *arr, unsigned int index);
 
 #endif // !ARRAY_H
