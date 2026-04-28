@@ -35,7 +35,7 @@ OBJS = $(patsubst $(PATHS)%.c, $(PATHO)%.o, $(SRCS))
 COMPILE=gcc -c
 LINK=gcc
 DEPEND=gcc -MM -MG -MF
-CFLAGS=-I. -I$(PATHU) -I$(PATHS) -DTEST
+CFLAGS=-I. -Iinclude -I$(PATHU) -I$(PATHS) -DTEST
 
 RESULTS = $(patsubst $(PATHT)Test%.c,$(PATHR)Test%.txt,$(SRCT) )
 
@@ -88,6 +88,10 @@ $(PATHO):
 
 $(PATHR):
 	$(MKDIR) $(PATHR)
+
+cmake:
+	cmake -S . -G "Unix Makefiles" -B cmake
+	ln -s cmake/compile_commands.json .
 
 clean:
 	$(CLEANUP) $(PATHO)*.o
