@@ -60,6 +60,20 @@ void test_array_set() {
   TEST_ASSERT_EQUAL_INT(10, at(arr, 4));
 }
 
+void test_array_push() {
+  TEST_ASSERT_EQUAL_INT(10, at(arr, 0));
+  TEST_ASSERT_EQUAL_INT(20, at(arr, 1));
+  TEST_ASSERT_EQUAL_INT(30, at(arr, 2));
+  TEST_ASSERT_EQUAL_INT(40, at(arr, 3));
+  TEST_ASSERT_EQUAL_INT(50, at(arr, 4));
+
+  TEST_ASSERT_EQUAL_INT(-1, at(arr, 5));
+
+  push(arr, 60);
+
+  TEST_ASSERT_EQUAL_INT(60, at(arr, 5));
+}
+
 void setUp() {
   int data[] = {10, 20, 30, 40, 50};
 
@@ -75,6 +89,7 @@ int main(void) {
   RUN_TEST(test_array_is_empty);
   RUN_TEST(test_array_at);
   RUN_TEST(test_array_set);
+  RUN_TEST(test_array_push);
 
   UNITY_END();
 

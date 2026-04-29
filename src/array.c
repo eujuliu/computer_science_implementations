@@ -42,6 +42,32 @@ void free_array(Array *arr) {
   free(arr);
 }
 
+void shrink_array(Array *arr, int size) {
+  int new_capacity = arr->capacity;
+
+  while (size <= new_capacity / 3 && new_capacity > 8) {
+    new_capacity >>= 1;
+  }
+
+  arr->data = (int *)realloc(arr->data, new_capacity * sizeof(int));
+
+  arr->capacity = new_capacity;
+  arr->size = size;
+}
+
+void grow_array(Array *arr, int size) {
+  int new_capacity = arr->capacity;
+
+  while (size >= new_capacity) {
+    new_capacity <<= 1;
+  }
+
+  arr->data = (int *)realloc(arr->data, new_capacity * sizeof(int));
+
+  arr->capacity = new_capacity;
+  arr->size = size;
+}
+
 unsigned int is_empty(Array *arr) { return arr->size == 0; }
 
 int at(Array *arr, unsigned int index) {
@@ -60,4 +86,13 @@ unsigned int set(Array *arr, unsigned int index, int value) {
   *(arr->data + index) = value;
 
   return 1;
+}
+
+void push(Array *arr, int value) {
+  if (arr->size + 1 >= arr->capacity) {
+    grow_array(arr, arr->size + 1);
+  }
+
+  *(arr->data + arr->size) = value;
+  arr->size += 1;
 }
