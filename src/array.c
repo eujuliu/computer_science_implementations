@@ -127,3 +127,5 @@ unsigned int insert(Array *arr, unsigned int index, int value) {
 
   return 1;
 }
+
+unsigned int prepend(Array *arr, int value) { insert(arr, 0, value); }

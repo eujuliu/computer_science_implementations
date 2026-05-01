@@ -69,10 +69,15 @@ void test_array_push() {
 
   TEST_ASSERT_EQUAL_INT(-1, at(arr, 5));
 
+  TEST_ASSERT_EQUAL_INT(5, arr->size);
+
   push(arr, 60);
 
   TEST_ASSERT_EQUAL_INT(60, at(arr, 5));
   TEST_ASSERT_EQUAL_INT(-1, at(arr, 6));
+
+  TEST_ASSERT_EQUAL_INT(6, arr->size);
+  TEST_ASSERT_EQUAL_INT(8, arr->capacity);
 }
 
 void test_array_insert() {
@@ -126,6 +131,55 @@ void test_array_insert_capacity_grow() {
   TEST_ASSERT_EQUAL_INT(16, arr->capacity);
 }
 
+void test_array_prepend() {
+  TEST_ASSERT_EQUAL_INT(10, at(arr, 0));
+  TEST_ASSERT_EQUAL_INT(20, at(arr, 1));
+  TEST_ASSERT_EQUAL_INT(30, at(arr, 2));
+  TEST_ASSERT_EQUAL_INT(40, at(arr, 3));
+  TEST_ASSERT_EQUAL_INT(50, at(arr, 4));
+
+  TEST_ASSERT_EQUAL_INT(-1, at(arr, 5));
+  TEST_ASSERT_EQUAL_INT(5, arr->size);
+
+  prepend(arr, 9);
+
+  TEST_ASSERT_EQUAL_INT(9, at(arr, 0));
+  TEST_ASSERT_EQUAL_INT(10, at(arr, 1));
+  TEST_ASSERT_EQUAL_INT(20, at(arr, 2));
+  TEST_ASSERT_EQUAL_INT(30, at(arr, 3));
+  TEST_ASSERT_EQUAL_INT(40, at(arr, 4));
+  TEST_ASSERT_EQUAL_INT(50, at(arr, 5));
+  TEST_ASSERT_EQUAL_INT(6, arr->size);
+}
+
+void test_array_prepend_capacity_grow() {
+  TEST_ASSERT_EQUAL_INT(10, at(arr, 0));
+  TEST_ASSERT_EQUAL_INT(20, at(arr, 1));
+  TEST_ASSERT_EQUAL_INT(30, at(arr, 2));
+  TEST_ASSERT_EQUAL_INT(40, at(arr, 3));
+  TEST_ASSERT_EQUAL_INT(50, at(arr, 4));
+
+  TEST_ASSERT_EQUAL_INT(-1, at(arr, 5));
+
+  TEST_ASSERT_EQUAL_INT(8, arr->capacity);
+
+  prepend(arr, 9);
+  prepend(arr, 8);
+  prepend(arr, 7);
+
+  TEST_ASSERT_EQUAL_INT(7, at(arr, 0));
+  TEST_ASSERT_EQUAL_INT(8, at(arr, 1));
+  TEST_ASSERT_EQUAL_INT(9, at(arr, 2));
+  TEST_ASSERT_EQUAL_INT(10, at(arr, 3));
+  TEST_ASSERT_EQUAL_INT(20, at(arr, 4));
+  TEST_ASSERT_EQUAL_INT(30, at(arr, 5));
+  TEST_ASSERT_EQUAL_INT(40, at(arr, 6));
+  TEST_ASSERT_EQUAL_INT(50, at(arr, 7));
+
+  TEST_ASSERT_EQUAL_INT(9, arr->size);
+  TEST_ASSERT_EQUAL_INT(16, arr->capacity);
+}
+
 void setUp() {
   int data[] = {10, 20, 30, 40, 50};
 
@@ -144,6 +198,8 @@ int main(void) {
   RUN_TEST(test_array_push);
   RUN_TEST(test_array_insert);
   RUN_TEST(test_array_insert_capacity_grow);
+  RUN_TEST(test_array_prepend);
+  RUN_TEST(test_array_prepend_capacity_grow);
 
   UNITY_END();
 
