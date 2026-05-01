@@ -43,6 +43,10 @@ void free_array(Array *arr) {
 }
 
 void shrink_array(Array *arr, int size) {
+  if (size > arr->capacity / 3) {
+    return;
+  }
+
   int new_capacity = arr->capacity;
 
   while (size <= new_capacity / 3 && new_capacity > 8) {
@@ -56,6 +60,10 @@ void shrink_array(Array *arr, int size) {
 }
 
 void grow_array(Array *arr, int size) {
+  if (size < arr->capacity) {
+    return;
+  }
+
   int new_capacity = arr->capacity;
 
   while (size >= new_capacity) {
@@ -89,10 +97,33 @@ unsigned int set(Array *arr, unsigned int index, int value) {
 }
 
 void push(Array *arr, int value) {
-  if (arr->size + 1 >= arr->capacity) {
-    grow_array(arr, arr->size + 1);
-  }
+  grow_array(arr, arr->size + 1);
 
   *(arr->data + arr->size) = value;
   arr->size += 1;
+}
+
+unsigned int insert(Array *arr, unsigned int index, int value) {
+  if (index >= arr->size + 1) {
+    return 0;
+  }
+
+  grow_array(arr, arr->size + 1);
+
+  if (index == arr->size) {
+    push(arr, value);
+    return 1;
+  }
+
+  int new_value = value;
+
+  for (int i = index; i < arr->size + 1; i++) {
+    int old_value = *(arr->data + i);
+    *(arr->data + i) = new_value;
+    new_value = old_value;
+  }
+
+  arr->size += 1;
+
+  return 1;
 }

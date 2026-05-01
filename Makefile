@@ -15,6 +15,7 @@ endif
 
 .PHONY: clean
 .PHONY: test
+.PHONY: test-mem
 .PHONY: build
 .PHONY: all
 
@@ -43,7 +44,17 @@ PASSED = `grep -s PASS $(PATHR)*.txt`
 FAIL = `grep -s FAIL $(PATHR)*.txt`
 IGNORE = `grep -s IGNORE $(PATHR)*.txt`
 
-all: clean test build
+RUNNER ?=
+
+all: clean test test-mem build
+
+
+test-mem: RUNNER = valgrind --leak-check=full --show-leak-kinds=all \
+                           --track-origins=yes --error-exitcode=1 \
+                           --log-file=$(PATHR)Mem$(*F).txt
+
+test-mem: $(BUILD_PATHS) $(RESULTS)
+	@echo "Memory analysis done (Valgrind)"
 
 test: $(BUILD_PATHS) $(RESULTS)
 	@echo "-----------------------IGNORES:-----------------------"
@@ -54,13 +65,14 @@ test: $(BUILD_PATHS) $(RESULTS)
 	@echo "$(PASSED)"
 	@echo "DONE"
 
+
 build: $(BUILD_PATHS) main.$(TARGET_EXTENSION)
 
 main.$(TARGET_EXTENSION): $(OBJS)
 	$(LINK) -o $@ $^
 
 $(PATHR)%.txt: $(PATHB)%.$(TARGET_EXTENSION)
-	-./$< > $@ 2>&1
+	-$(RUNNER) ./$< > $@ 2>&1
 
 $(PATHB)Test%.$(TARGET_EXTENSION): $(PATHO)Test%.o $(PATHO)%.o $(PATHO)unity.o #$(PATHD)Test%.d
 	$(LINK) -o $@ $^ -lm
