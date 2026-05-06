@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 Array *new_array(int *values, unsigned int size) {
   size_t ic = INITIAL_CAPACITY;
@@ -135,6 +136,10 @@ unsigned int insert(Array *arr, unsigned int index, int value) {
 unsigned int prepend(Array *arr, int value) { return insert(arr, 0, value); }
 
 int pop(Array *arr) {
+  if (arr->size == 0) {
+    return 0;
+  }
+
   unsigned int new_size = arr->size - 1;
 
   int item = *(arr->data + new_size);
@@ -142,6 +147,35 @@ int pop(Array *arr) {
   shrink_array(arr, new_size);
 
   arr->size = new_size;
+
+  return item;
+}
+
+unsigned int delete_item(Array *arr, int index) {
+  if (arr->size == 0 || index >= (int)arr->size) {
+    return 0;
+  }
+
+  int item = *(arr->data + index);
+  int size = arr->size - 1;
+
+  if (index < 0) {
+    index = arr->size + index;
+  }
+
+  for (int i = index; i < arr->size; i++) {
+    if (i + 1 > (int)arr->size) {
+      continue;
+    }
+
+    int *dest = arr->data + i;
+    int *src = arr->data + i + 1;
+
+    memmove(dest, src, sizeof(*src));
+  }
+
+  shrink_array(arr, size);
+  arr->size = size;
 
   return item;
 }
