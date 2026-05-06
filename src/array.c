@@ -42,29 +42,28 @@ void free_array(Array *arr) {
   free(arr);
 }
 
-void shrink_array(Array *arr, int size) {
-  if (size > arr->capacity / 3) {
+static void shrink_array(Array *arr, int size) {
+  if (size > (int)arr->capacity / 4) {
     return;
   }
 
-  int new_capacity = arr->capacity;
+  int new_capacity = (int)arr->capacity;
 
-  while (size <= new_capacity / 3 && new_capacity > 8) {
+  while (size <= new_capacity / 4 && new_capacity > INITIAL_CAPACITY) {
     new_capacity >>= 1;
   }
 
   arr->data = (int *)realloc(arr->data, new_capacity * sizeof(int));
 
-  arr->capacity = new_capacity;
-  arr->size = size;
+  arr->capacity = (unsigned int)new_capacity;
 }
 
-void grow_array(Array *arr, int size) {
-  if (size < arr->capacity) {
+static void grow_array(Array *arr, int size) {
+  if (size < (int)arr->capacity) {
     return;
   }
 
-  int new_capacity = arr->capacity;
+  int new_capacity = (int)arr->capacity;
 
   while (size >= new_capacity) {
     new_capacity <<= 1;
@@ -72,15 +71,20 @@ void grow_array(Array *arr, int size) {
 
   arr->data = (int *)realloc(arr->data, new_capacity * sizeof(int));
 
-  arr->capacity = new_capacity;
-  arr->size = size;
+  arr->capacity = (unsigned int)new_capacity;
 }
 
 unsigned int is_empty(Array *arr) { return arr->size == 0; }
 
-int at(Array *arr, unsigned int index) {
-  if (index >= arr->size) {
+int at(Array *arr, int index) {
+  int size = (int)arr->size;
+
+  if (index >= size || size == 0) {
     return -1;
+  }
+
+  if (index < 0) {
+    return *(arr->data + size + index);
   }
 
   return *(arr->data + index);
@@ -128,4 +132,16 @@ unsigned int insert(Array *arr, unsigned int index, int value) {
   return 1;
 }
 
-unsigned int prepend(Array *arr, int value) { insert(arr, 0, value); }
+unsigned int prepend(Array *arr, int value) { return insert(arr, 0, value); }
+
+int pop(Array *arr) {
+  unsigned int new_size = arr->size - 1;
+
+  int item = *(arr->data + new_size);
+
+  shrink_array(arr, new_size);
+
+  arr->size = new_size;
+
+  return item;
+}

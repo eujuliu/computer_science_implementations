@@ -70,6 +70,7 @@ void test_array_push() {
   TEST_ASSERT_EQUAL_INT(-1, at(arr, 5));
 
   TEST_ASSERT_EQUAL_INT(5, arr->size);
+  TEST_ASSERT_EQUAL_INT(8, arr->capacity);
 
   push(arr, 60);
 
@@ -88,7 +89,9 @@ void test_array_insert() {
   TEST_ASSERT_EQUAL_INT(50, at(arr, 4));
 
   TEST_ASSERT_EQUAL_INT(-1, at(arr, 5));
+
   TEST_ASSERT_EQUAL_INT(5, arr->size);
+  TEST_ASSERT_EQUAL_INT(8, arr->capacity);
 
   insert(arr, 1, 15);
 
@@ -98,6 +101,7 @@ void test_array_insert() {
   TEST_ASSERT_EQUAL_INT(30, at(arr, 3));
   TEST_ASSERT_EQUAL_INT(40, at(arr, 4));
   TEST_ASSERT_EQUAL_INT(50, at(arr, 5));
+
   TEST_ASSERT_EQUAL_INT(6, arr->size);
   TEST_ASSERT_EQUAL_INT(8, arr->capacity);
 }
@@ -111,6 +115,7 @@ void test_array_insert_capacity_grow() {
 
   TEST_ASSERT_EQUAL_INT(-1, at(arr, 5));
 
+  TEST_ASSERT_EQUAL_INT(5, arr->size);
   TEST_ASSERT_EQUAL_INT(8, arr->capacity);
 
   insert(arr, 1, 15);
@@ -127,7 +132,7 @@ void test_array_insert_capacity_grow() {
   TEST_ASSERT_EQUAL_INT(30, at(arr, 6));
   TEST_ASSERT_EQUAL_INT(40, at(arr, 7));
   TEST_ASSERT_EQUAL_INT(50, at(arr, 8));
-  TEST_ASSERT_EQUAL_INT(10, arr->size);
+  TEST_ASSERT_EQUAL_INT(9, arr->size);
   TEST_ASSERT_EQUAL_INT(16, arr->capacity);
 }
 
@@ -161,6 +166,7 @@ void test_array_prepend_capacity_grow() {
 
   TEST_ASSERT_EQUAL_INT(-1, at(arr, 5));
 
+  TEST_ASSERT_EQUAL_INT(5, arr->size);
   TEST_ASSERT_EQUAL_INT(8, arr->capacity);
 
   prepend(arr, 9);
@@ -176,8 +182,80 @@ void test_array_prepend_capacity_grow() {
   TEST_ASSERT_EQUAL_INT(40, at(arr, 6));
   TEST_ASSERT_EQUAL_INT(50, at(arr, 7));
 
-  TEST_ASSERT_EQUAL_INT(9, arr->size);
+  TEST_ASSERT_EQUAL_INT(8, arr->size);
   TEST_ASSERT_EQUAL_INT(16, arr->capacity);
+}
+
+void test_array_pop() {
+  TEST_ASSERT_EQUAL_INT(10, at(arr, 0));
+  TEST_ASSERT_EQUAL_INT(20, at(arr, 1));
+  TEST_ASSERT_EQUAL_INT(30, at(arr, 2));
+  TEST_ASSERT_EQUAL_INT(40, at(arr, 3));
+  TEST_ASSERT_EQUAL_INT(50, at(arr, 4));
+
+  TEST_ASSERT_EQUAL_INT(-1, at(arr, 5));
+
+  TEST_ASSERT_EQUAL_INT(5, arr->size);
+  TEST_ASSERT_EQUAL_INT(8, arr->capacity);
+
+  pop(arr);
+
+  TEST_ASSERT_EQUAL_INT(4, arr->size);
+  TEST_ASSERT_EQUAL_INT(8, arr->capacity);
+
+  TEST_ASSERT_EQUAL_INT(40, at(arr, -1));
+}
+
+void test_array_pop_capacity_shrink() {
+  prepend(arr, 9);
+  prepend(arr, 8);
+  prepend(arr, 7);
+
+  TEST_ASSERT_EQUAL_INT(7, at(arr, 0));
+  TEST_ASSERT_EQUAL_INT(8, at(arr, 1));
+  TEST_ASSERT_EQUAL_INT(9, at(arr, 2));
+  TEST_ASSERT_EQUAL_INT(10, at(arr, 3));
+  TEST_ASSERT_EQUAL_INT(20, at(arr, 4));
+  TEST_ASSERT_EQUAL_INT(30, at(arr, 5));
+  TEST_ASSERT_EQUAL_INT(40, at(arr, 6));
+  TEST_ASSERT_EQUAL_INT(50, at(arr, 7));
+
+  TEST_ASSERT_EQUAL_INT(8, arr->size);
+  TEST_ASSERT_EQUAL_INT(16, arr->capacity);
+
+  pop(arr);
+  pop(arr);
+  pop(arr);
+  pop(arr);
+
+  TEST_ASSERT_EQUAL_INT(4, arr->size);
+  TEST_ASSERT_EQUAL_INT(8, arr->capacity);
+
+  TEST_ASSERT_EQUAL_INT(10, at(arr, -1));
+}
+
+void test_array_pop_capacity_shrink_not_less_than_initial() {
+  TEST_ASSERT_EQUAL_INT(10, at(arr, 0));
+  TEST_ASSERT_EQUAL_INT(20, at(arr, 1));
+  TEST_ASSERT_EQUAL_INT(30, at(arr, 2));
+  TEST_ASSERT_EQUAL_INT(40, at(arr, 3));
+  TEST_ASSERT_EQUAL_INT(50, at(arr, 4));
+
+  TEST_ASSERT_EQUAL_INT(-1, at(arr, 5));
+
+  TEST_ASSERT_EQUAL_INT(5, arr->size);
+  TEST_ASSERT_EQUAL_INT(8, arr->capacity);
+
+  pop(arr);
+  pop(arr);
+  pop(arr);
+  pop(arr);
+  pop(arr);
+
+  TEST_ASSERT_EQUAL_INT(0, arr->size);
+  TEST_ASSERT_EQUAL_INT(8, arr->capacity);
+
+  TEST_ASSERT_EQUAL_INT(-1, at(arr, -1));
 }
 
 void setUp() {
@@ -200,6 +278,9 @@ int main(void) {
   RUN_TEST(test_array_insert_capacity_grow);
   RUN_TEST(test_array_prepend);
   RUN_TEST(test_array_prepend_capacity_grow);
+  RUN_TEST(test_array_pop);
+  RUN_TEST(test_array_pop_capacity_shrink);
+  RUN_TEST(test_array_pop_capacity_shrink_not_less_than_initial);
 
   UNITY_END();
 

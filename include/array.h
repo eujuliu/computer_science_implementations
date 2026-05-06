@@ -14,10 +14,11 @@ typedef struct {
 Array *new_array(int *args, unsigned int size);
 void free_array(Array *arr);
 unsigned int is_empty(Array *arr);
-int at(Array *arr, unsigned int index);
+int at(Array *arr, int index);
 unsigned int set(Array *arr, unsigned int index, int value);
 void push(Array *arr, int value);
 unsigned int insert(Array *arr, unsigned int index, int value);
 unsigned int prepend(Array *arr, int value);
+int pop(Array *arr);
 
 #endif // !ARRAY_H
