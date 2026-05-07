@@ -443,6 +443,14 @@ void test_array_remove_capacity_shrink() {
   TEST_ASSERT_EQUAL_INT(8, arr->capacity);
 }
 
+void test_array_find() {
+  TEST_ASSERT_EQUAL_INT(0, find(arr, 10));
+  TEST_ASSERT_EQUAL_INT(1, find(arr, 20));
+  TEST_ASSERT_EQUAL_INT(2, find(arr, 30));
+  TEST_ASSERT_EQUAL_INT(3, find(arr, 40));
+  TEST_ASSERT_EQUAL_INT(4, find(arr, 50));
+}
+
 void setUp() {
   int data[] = {10, 20, 30, 40, 50};
 
@@ -471,6 +479,7 @@ int main(void) {
   RUN_TEST(test_array_delete_last);
   RUN_TEST(test_array_remove);
   RUN_TEST(test_array_remove_capacity_shrink);
+  RUN_TEST(test_array_find);
 
   UNITY_END();
 

@@ -22,5 +22,6 @@ unsigned int prepend(Array *arr, int value);
 int pop(Array *arr);
 unsigned int delete_item(Array *arr, int index);
 void remove_item(Array *arr, int value);
+int find(Array *arr, int value);
 
 #endif // !ARRAY_H

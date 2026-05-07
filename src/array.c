@@ -205,3 +205,15 @@ void remove_item(Array *arr, int value) {
   shrink_array(arr, size - count);
   arr->size = size - count;
 }
+
+int find(Array *arr, int value) {
+  for (int i = 0; i < arr->size; i++) {
+    int item = *(arr->data + i);
+
+    if (item == value) {
+      return i;
+    }
+  }
+
+  return -1;
+}
