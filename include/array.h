@@ -21,5 +21,6 @@ unsigned int insert(Array *arr, unsigned int index, int value);
 unsigned int prepend(Array *arr, int value);
 int pop(Array *arr);
 unsigned int delete_item(Array *arr, int index);
+void remove_item(Array *arr, int value);
 
 #endif // !ARRAY_H

@@ -1,5 +1,6 @@
 #include "../unity/src/unity.h"
 #include "array.h"
+#include <stdio.h>
 
 Array *arr;
 
@@ -339,6 +340,60 @@ void test_array_delete_last() {
   TEST_ASSERT_EQUAL_INT(8, arr->capacity);
 }
 
+void test_array_remove() {
+  prepend(arr, 9);
+  prepend(arr, 8);
+
+  prepend(arr, 9);
+  prepend(arr, 8);
+
+  push(arr, 8);
+  push(arr, 9);
+
+  push(arr, 8);
+  push(arr, 9);
+
+  TEST_ASSERT_EQUAL_INT(8, at(arr, 0));
+  TEST_ASSERT_EQUAL_INT(9, at(arr, 1));
+
+  TEST_ASSERT_EQUAL_INT(8, at(arr, 2));
+  TEST_ASSERT_EQUAL_INT(9, at(arr, 3));
+
+  TEST_ASSERT_EQUAL_INT(10, at(arr, 4));
+  TEST_ASSERT_EQUAL_INT(20, at(arr, 5));
+  TEST_ASSERT_EQUAL_INT(30, at(arr, 6));
+  TEST_ASSERT_EQUAL_INT(40, at(arr, 7));
+  TEST_ASSERT_EQUAL_INT(50, at(arr, 8));
+
+  TEST_ASSERT_EQUAL_INT(8, at(arr, 9));
+  TEST_ASSERT_EQUAL_INT(9, at(arr, 10));
+
+  TEST_ASSERT_EQUAL_INT(8, at(arr, 11));
+  TEST_ASSERT_EQUAL_INT(9, at(arr, 12));
+
+  TEST_ASSERT_EQUAL_INT(13, arr->size);
+  TEST_ASSERT_EQUAL_INT(16, arr->capacity);
+
+  remove_item(arr, 9);
+
+  TEST_ASSERT_EQUAL_INT(8, at(arr, 0));
+
+  TEST_ASSERT_EQUAL_INT(8, at(arr, 1));
+
+  TEST_ASSERT_EQUAL_INT(10, at(arr, 2));
+  TEST_ASSERT_EQUAL_INT(20, at(arr, 3));
+  TEST_ASSERT_EQUAL_INT(30, at(arr, 4));
+  TEST_ASSERT_EQUAL_INT(40, at(arr, 5));
+  TEST_ASSERT_EQUAL_INT(50, at(arr, 6));
+
+  TEST_ASSERT_EQUAL_INT(8, at(arr, 7));
+
+  TEST_ASSERT_EQUAL_INT(8, at(arr, 8));
+
+  TEST_ASSERT_EQUAL_INT(9, arr->size);
+  TEST_ASSERT_EQUAL_INT(16, arr->capacity);
+}
+
 void setUp() {
   int data[] = {10, 20, 30, 40, 50};
 
@@ -365,6 +420,7 @@ int main(void) {
   RUN_TEST(test_array_delete);
   RUN_TEST(test_array_delete_capacity_shrink);
   RUN_TEST(test_array_delete_last);
+  RUN_TEST(test_array_remove);
 
   UNITY_END();
 

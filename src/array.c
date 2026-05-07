@@ -179,3 +179,29 @@ unsigned int delete_item(Array *arr, int index) {
 
   return item;
 }
+
+void remove_item(Array *arr, int value) {
+  int size = arr->size;
+  int count = 0;
+  int i = 0;
+
+  while (i < size) {
+    int item = *(arr->data + i);
+
+    if (count > 0) {
+      int *dest = arr->data + (i - count);
+      int *src = arr->data + i;
+
+      memmove(dest, src, sizeof(*src));
+    }
+
+    if (item == value) {
+      count++;
+    }
+
+    i++;
+  }
+
+  shrink_array(arr, size - count);
+  arr->size = size - count;
+}
