@@ -1,6 +1,5 @@
 #include "../unity/src/unity.h"
 #include "array.h"
-#include <stdio.h>
 
 Array *arr;
 

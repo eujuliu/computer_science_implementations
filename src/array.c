@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-Array *new_array(int *values, unsigned int size) {
+Array *new_array(int *values, size_t size) {
   size_t ic = INITIAL_CAPACITY;
 
   while (ic < size) {
