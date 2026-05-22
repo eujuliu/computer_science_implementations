@@ -239,6 +239,27 @@ void test_singly_linked_list_pop_back_multiple() {
   TEST_ASSERT_EQUAL_INT(1, sll->size);
 }
 
+void test_singly_linked_list_value_at() {
+  TEST_ASSERT_EQUAL_INT(sll->head->value, 10);
+  TEST_ASSERT_NULL(sll->head->next);
+  TEST_ASSERT_EQUAL_INT(1, sll->size);
+
+  Node *n1 = CREATE_SLL_NODE(Node, 11, NULL);
+  Node *n2 = CREATE_SLL_NODE(Node, 12, NULL);
+  Node *n3 = CREATE_SLL_NODE(Node, 13, NULL);
+
+  push_back(sll, n1);
+  push_back(sll, n2);
+  push_back(sll, n3);
+
+  TEST_ASSERT_EQUAL_INT(10, value_at(sll, 0));
+  TEST_ASSERT_EQUAL_INT(11, value_at(sll, 1));
+  TEST_ASSERT_EQUAL_INT(12, value_at(sll, 2));
+  TEST_ASSERT_EQUAL_INT(13, value_at(sll, 3));
+  TEST_ASSERT_EQUAL_INT(0, value_at(sll, 4));
+  TEST_ASSERT_EQUAL_INT(4, sll->size);
+}
+
 void setUp() {
   Node *n = CREATE_SLL_NODE(Node, 10, NULL);
   sll = CREATE_SLL(SinglyLinkedList, n);
@@ -257,6 +278,7 @@ int main(void) {
   RUN_TEST(test_singly_linked_list_pop_front_multiple);
   RUN_TEST(test_singly_linked_list_pop_back);
   RUN_TEST(test_singly_linked_list_pop_back_multiple);
+  RUN_TEST(test_singly_linked_list_value_at);
 
   UNITY_END();
 

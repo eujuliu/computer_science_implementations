@@ -115,4 +115,22 @@
     _result;                                                                   \
   })
 
+#define value_at(list, index)                                                  \
+  ({                                                                           \
+    size_t size = (list)->size;                                                \
+    __typeof__((list)->head->value) _result = {0};                             \
+    if (index <= size) {                                                       \
+      int i = 0;                                                               \
+      __typeof__((list)->head) _n = (list)->head;                              \
+      while (_n != NULL) {                                                     \
+        if (i == index) {                                                      \
+          _result = _n->value;                                                 \
+          break;                                                               \
+        }                                                                      \
+        i++;                                                                   \
+        _n = _n->next;                                                         \
+      }                                                                        \
+    }                                                                          \
+    _result;                                                                   \
+  })
 #endif // ! SINGLY_LINKED_LIST_H
