@@ -68,4 +68,31 @@
     (list)->size += 1;                                                         \
   } while (0)
 
+#define push_back(list, value)                                                 \
+  do {                                                                         \
+    IS_SLL(list);                                                              \
+    IS_NODE(value);                                                            \
+    if ((list)->head == NULL) {                                                \
+      (list)->head = (value);                                                  \
+    } else {                                                                   \
+      __typeof__((list)->head) _n = (list)->head;                              \
+      while (_n->next != NULL) {                                               \
+        _n = _n->next;                                                         \
+      }                                                                        \
+      _n->next = (value);                                                      \
+    }                                                                          \
+    (list)->size += 1;                                                         \
+  } while (0)
+
+#define pop_front(list)                                                        \
+  ({                                                                           \
+    __typeof__((list)->head->value) *_result = NULL;                           \
+    if ((list)->head) {                                                        \
+      _result = &(list)->head->value;                                          \
+      (list)->head = (list)->head->next;                                       \
+      (list)->size -= 1;                                                       \
+    }                                                                          \
+    _result;                                                                   \
+  })
+
 #endif // ! SINGLY_LINKED_LIST_H
