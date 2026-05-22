@@ -86,11 +86,31 @@
 
 #define pop_front(list)                                                        \
   ({                                                                           \
-    __typeof__((list)->head->value) *_result = NULL;                           \
+    __typeof__((list)->head->value) _result = {0};                             \
     if ((list)->head) {                                                        \
-      _result = &(list)->head->value;                                          \
+      _result = (list)->head->value;                                           \
+      __typeof__((list)->head) _r = (list)->head;                              \
       (list)->head = (list)->head->next;                                       \
       (list)->size -= 1;                                                       \
+      free(_r);                                                                \
+    }                                                                          \
+    _result;                                                                   \
+  })
+
+#define pop_back(list)                                                         \
+  ({                                                                           \
+    __typeof__((list)->head->value) _result = {0};                             \
+    if ((list)->head) {                                                        \
+      __typeof__((list)->head) _p = NULL;                                      \
+      __typeof__((list)->head) _n = (list)->head;                              \
+      while (_n->next != NULL) {                                               \
+        _p = _n;                                                               \
+        _n = _n->next;                                                         \
+      }                                                                        \
+      _result = _n->value;                                                     \
+      _p->next = NULL;                                                         \
+      (list)->size -= 1;                                                       \
+      free(_n);                                                                \
     }                                                                          \
     _result;                                                                   \
   })
