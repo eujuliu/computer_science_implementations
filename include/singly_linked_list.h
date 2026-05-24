@@ -47,14 +47,14 @@
     _sll;                                                                      \
   })
 
-#define FREE_SLL(list, Node)                                                   \
+#define FREE_SLL(list)                                                         \
   do {                                                                         \
     IS_SLL(list);                                                              \
-    Node *n = list->head;                                                      \
-    while (n != NULL) {                                                        \
-      Node *nxt = n->next;                                                     \
-      free(n);                                                                 \
-      n = nxt;                                                                 \
+    __typeof__((list)->head) _n = list->head;                                  \
+    while (_n != NULL) {                                                       \
+      Node *nxt = _n->next;                                                    \
+      free(_n);                                                                \
+      _n = nxt;                                                                \
     }                                                                          \
     free(list);                                                                \
   } while (0)
@@ -86,6 +86,7 @@
 
 #define pop_front(list)                                                        \
   ({                                                                           \
+    IS_SLL(list);                                                              \
     __typeof__((list)->head->value) _result = {0};                             \
     if ((list)->head) {                                                        \
       _result = (list)->head->value;                                           \
@@ -99,6 +100,7 @@
 
 #define pop_back(list)                                                         \
   ({                                                                           \
+    IS_SLL(list);                                                              \
     __typeof__((list)->head->value) _result = {0};                             \
     if ((list)->head) {                                                        \
       __typeof__((list)->head) _p = NULL;                                      \
@@ -117,6 +119,7 @@
 
 #define value_at(list, index)                                                  \
   ({                                                                           \
+    IS_SLL(list);                                                              \
     size_t size = (list)->size;                                                \
     __typeof__((list)->head->value) _result = {0};                             \
     if (index <= size) {                                                       \
@@ -132,5 +135,21 @@
       }                                                                        \
     }                                                                          \
     _result;                                                                   \
+  })
+
+#define front(list)                                                            \
+  ({                                                                           \
+    IS_SLL(list);                                                              \
+    (list)->head;                                                              \
+  })
+
+#define back(list)                                                             \
+  ({                                                                           \
+    IS_SLL(list);                                                              \
+    __typeof__((list)->head) _n = (list)->head;                                \
+    while (_n->next != NULL) {                                                 \
+      _n = _n->next;                                                           \
+    }                                                                          \
+    _n;                                                                        \
   })
 #endif // ! SINGLY_LINKED_LIST_H
