@@ -152,4 +152,31 @@
     }                                                                          \
     _n;                                                                        \
   })
+
+#define insert(list, index, value)                                             \
+  do {                                                                         \
+    IS_SLL(list);                                                              \
+    IS_NODE(value);                                                            \
+    if (index > (list)->size || index < 0) {                                   \
+      break;                                                                   \
+    }                                                                          \
+    if (index == 0) {                                                          \
+      (value)->next = (list)->head;                                            \
+      (list)->head = (value);                                                  \
+    } else {                                                                   \
+      int i = 0;                                                               \
+      __typeof__((list)->head) _n = (list)->head;                              \
+      while (_n->next != NULL) {                                               \
+        if (i == index - 1) {                                                  \
+          (value)->next = _n->next;                                            \
+          _n->next = (value);                                                  \
+          break;                                                               \
+        }                                                                      \
+        _n = _n->next;                                                         \
+        i++;                                                                   \
+      }                                                                        \
+    }                                                                          \
+    (list)->size += 1;                                                         \
+  } while (0)
+
 #endif // ! SINGLY_LINKED_LIST_H
