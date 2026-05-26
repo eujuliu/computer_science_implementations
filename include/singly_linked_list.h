@@ -179,4 +179,45 @@
     (list)->size += 1;                                                         \
   } while (0)
 
+#define erase(list, index)                                                     \
+  do {                                                                         \
+    IS_SLL(list);                                                              \
+    if (index > (list)->size || index < 0) {                                   \
+      break;                                                                   \
+    }                                                                          \
+    __typeof__((list)->head) _r = NULL;                                        \
+    if (index == 0) {                                                          \
+      _r = (list)->head;                                                       \
+      (list)->head = (list)->head ? (list)->head->next : NULL;                 \
+    } else {                                                                   \
+      int i = 0;                                                               \
+      __typeof__((list)->head) _n = (list)->head;                              \
+      while (_n != NULL) {                                                     \
+        if (i == index - 1) {                                                  \
+          _r = _n->next;                                                       \
+          _n->next = _n->next->next;                                           \
+          break;                                                               \
+        }                                                                      \
+        i++;                                                                   \
+        _n = _n->next;                                                         \
+      }                                                                        \
+    }                                                                          \
+    free(_r);                                                                  \
+    (list)->size -= 1;                                                         \
+  } while (0)
+
+#define value_n_from_end(list, n)                                              \
+  ({                                                                           \
+    IS_SLL(list);                                                              \
+    __typeof__((list)->head) _n = (list)->head;                                \
+    if ((list)->size - n >= 0) {                                               \
+      int _idx = (list)->size - n;                                             \
+      while (_idx != 0) {                                                      \
+        _n = _n->next;                                                         \
+        _idx--;                                                                \
+      }                                                                        \
+    }                                                                          \
+    _n;                                                                        \
+  })
+
 #endif // ! SINGLY_LINKED_LIST_H
