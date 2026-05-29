@@ -220,4 +220,18 @@
     _n;                                                                        \
   })
 
+#define reverse(list)                                                          \
+  do {                                                                         \
+    IS_SLL(list);                                                              \
+    __typeof__((list)->head) _reverted = NULL;                                 \
+    __typeof__((list)->head) _node = (list)->head;                             \
+    while (_node != NULL) {                                                    \
+      __typeof__((list)->head) _path = _node->next;                            \
+      _node->next = _reverted;                                                 \
+      _reverted = _node;                                                       \
+      _node = _path;                                                           \
+    }                                                                          \
+    (list)->head = _reverted;                                                  \
+  } while (0)
+
 #endif // ! SINGLY_LINKED_LIST_H
