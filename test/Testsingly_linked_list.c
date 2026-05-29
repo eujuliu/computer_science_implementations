@@ -405,6 +405,46 @@ void test_singly_linked_list_reverse() {
   TEST_ASSERT_EQUAL_INT(4, sll->size);
 }
 
+void test_singly_linked_list_remove_value() {
+  TEST_ASSERT_EQUAL_INT(sll->head->value, 10);
+  TEST_ASSERT_NULL(sll->head->next);
+  TEST_ASSERT_EQUAL_INT(1, sll->size);
+
+  Node *n1 = CREATE_SLL_NODE(Node, 11, NULL);
+  Node *n2 = CREATE_SLL_NODE(Node, 12, NULL);
+  Node *n3 = CREATE_SLL_NODE(Node, 13, NULL);
+
+  push_back(sll, n1);
+  push_back(sll, n2);
+  push_back(sll, n3);
+
+  TEST_ASSERT_EQUAL_INT(10, value_at(sll, 0));
+  TEST_ASSERT_EQUAL_INT(11, value_at(sll, 1));
+  TEST_ASSERT_EQUAL_INT(12, value_at(sll, 2));
+  TEST_ASSERT_EQUAL_INT(13, value_at(sll, 3));
+  TEST_ASSERT_EQUAL_INT(0, value_at(sll, 4));
+  TEST_ASSERT_EQUAL_INT(4, sll->size);
+
+  remove_value(sll, 12);
+
+  TEST_ASSERT_EQUAL_INT(10, value_at(sll, 0));
+  TEST_ASSERT_EQUAL_INT(11, value_at(sll, 1));
+  TEST_ASSERT_EQUAL_INT(13, value_at(sll, 2));
+  TEST_ASSERT_EQUAL_INT(0, value_at(sll, 3));
+  TEST_ASSERT_EQUAL_INT(3, sll->size);
+}
+
+void test_singly_linked_list_remove_value_at_begin() {
+  TEST_ASSERT_EQUAL_INT(sll->head->value, 10);
+  TEST_ASSERT_NULL(sll->head->next);
+  TEST_ASSERT_EQUAL_INT(1, sll->size);
+
+  remove_value(sll, 10);
+
+  TEST_ASSERT_EQUAL_INT(0, value_at(sll, 0));
+  TEST_ASSERT_EQUAL_INT(0, sll->size);
+}
+
 void setUp() {
   Node *n = CREATE_SLL_NODE(Node, 10, NULL);
   sll = CREATE_SLL(SinglyLinkedList, n);
@@ -431,6 +471,8 @@ int main(void) {
   RUN_TEST(test_singly_linked_list_erase_with_size_one);
   RUN_TEST(test_singly_linked_list_value_n_from_end);
   RUN_TEST(test_singly_linked_list_reverse);
+  RUN_TEST(test_singly_linked_list_remove_value);
+  RUN_TEST(test_singly_linked_list_remove_value_at_begin);
 
   UNITY_END();
 

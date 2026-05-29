@@ -234,4 +234,28 @@
     (list)->head = _reverted;                                                  \
   } while (0)
 
+#define remove_value(list, target)                                             \
+  do {                                                                         \
+    IS_SLL(list);                                                              \
+    if ((list)->size == 0) {                                                   \
+      break;                                                                   \
+    }                                                                          \
+    __typeof__((list)->head) _prev = NULL;                                     \
+    __typeof__((list)->head) _node = (list)->head;                             \
+    while (1) {                                                                \
+      if (_node->value == (target)) {                                          \
+        break;                                                                 \
+      }                                                                        \
+      _prev = _node;                                                           \
+      _node = _node->next;                                                     \
+    }                                                                          \
+    if (_prev == NULL) {                                                       \
+      (list)->head = _node->next;                                              \
+    } else {                                                                   \
+      _prev->next = _node->next;                                               \
+    }                                                                          \
+    free(_node);                                                               \
+    (list)->size -= 1;                                                         \
+  } while (0)
+
 #endif // ! SINGLY_LINKED_LIST_H
