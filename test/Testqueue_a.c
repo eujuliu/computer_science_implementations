@@ -1,17 +1,14 @@
 
 #include "../unity/src/unity.h"
-#include "queue_ll.h"
+#include "queue_a.h"
 
-QUEUE_LL(int, Node, Queue);
+QUEUE_A(int, Queue, 10);
 
 Queue *q;
 
 void test_queue_initialize() {
   TEST_ASSERT_EQUAL_INT(1, q->size);
-  TEST_ASSERT_EQUAL_INT(10, q->head->data);
-  TEST_ASSERT_EQUAL_INT(10, q->tail->data);
-  TEST_ASSERT_NULL(q->head->next);
-  TEST_ASSERT_NULL(q->tail->next);
+  TEST_ASSERT_EQUAL_INT(10, q->data[0]);
 }
 
 void test_queue_empty() { TEST_ASSERT_EQUAL_INT(0, empty_Queue(q)); }
@@ -21,7 +18,7 @@ void test_queue_enqueue() {
 
   enqueue_Queue(q, 20);
 
-  TEST_ASSERT_EQUAL_INT(20, q->tail->data);
+  TEST_ASSERT_EQUAL_INT(20, q->data[1]);
   TEST_ASSERT_EQUAL_INT(2, q->size);
 }
 
@@ -33,7 +30,6 @@ void test_queue_dequeue() {
   enqueue_Queue(q, 40);
   enqueue_Queue(q, 50);
 
-  TEST_ASSERT_EQUAL_INT(50, q->tail->data);
   TEST_ASSERT_EQUAL_INT(5, q->size);
 
   int dequeue1 = dequeue_Queue(q);

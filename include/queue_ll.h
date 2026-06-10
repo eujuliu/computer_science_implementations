@@ -6,7 +6,7 @@
 
 #define Q_MEMORY_ERROR "Error allocating memory to queue"
 
-#define QUEUE(type, node_name, queue_name)                                     \
+#define QUEUE_LL(type, node_name, queue_name)                                  \
   typedef struct node_name {                                                   \
     type data;                                                                 \
     struct node_name *next;                                                    \
