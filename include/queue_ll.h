@@ -18,7 +18,7 @@
     node_name *tail;                                                           \
   } queue_name;                                                                \
                                                                                \
-  uint8_t empty_##queue_name(queue_name *q) { return q->size > 0; }            \
+  uint8_t empty_##queue_name(queue_name *q) { return q->size > 0 ? 0 : 1; }    \
                                                                                \
   queue_name *init_##queue_name(type *value) {                                 \
     queue_name *queue = malloc(sizeof(queue_name));                            \
@@ -49,6 +49,24 @@
       }                                                                        \
     }                                                                          \
     free(q);                                                                   \
+  }                                                                            \
+                                                                               \
+  void enqueue_##queue_name(queue_name *q, type value) {                       \
+    node_name *node = malloc(sizeof(node_name));                               \
+    if (node == NULL) {                                                        \
+      perror(Q_MEMORY_ERROR);                                                  \
+      exit(EXIT_FAILURE);                                                      \
+    }                                                                          \
+    node->data = value;                                                        \
+    node->next = NULL;                                                         \
+    if (q->size < 1) {                                                         \
+      q->head = node;                                                          \
+      q->tail = node;                                                          \
+    } else {                                                                   \
+      q->tail->next = node;                                                    \
+      q->tail = node;                                                          \
+    }                                                                          \
+    q->size += 1;                                                              \
   }
 
 #endif // !QUEUE_LL_H
