@@ -67,6 +67,24 @@
       q->tail = node;                                                          \
     }                                                                          \
     q->size += 1;                                                              \
+  }                                                                            \
+                                                                               \
+  type dequeue_##queue_name(queue_name *q) {                                   \
+    if (q->size < 1) {                                                         \
+      return (type){0};                                                        \
+    }                                                                          \
+    type value = q->head->data;                                                \
+    if (q->size == 1) {                                                        \
+      free(q->head);                                                           \
+      q->head = NULL;                                                          \
+      q->tail = NULL;                                                          \
+    } else {                                                                   \
+      node_name *nxt = q->head->next;                                          \
+      free(q->head);                                                           \
+      q->head = nxt;                                                           \
+    }                                                                          \
+    q->size -= 1;                                                              \
+    return value;                                                              \
   }
 
 #endif // !QUEUE_LL_H
