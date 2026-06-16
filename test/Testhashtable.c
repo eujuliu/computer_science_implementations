@@ -123,6 +123,34 @@ void test_should_value_exists() {
   TEST_ASSERT_EQUAL_INT(1, exists_HashTable(ht, key1));
 }
 
+void test_should_remove_value() {
+  char *key1 = "a";
+
+  add_HashTable(ht, key1, 10);
+
+  TEST_ASSERT_EQUAL_INT(1, exists_HashTable(ht, key1));
+
+  int8_t removed = remove_HashTable(ht, key1);
+
+  TEST_ASSERT_EQUAL_INT(1, removed);
+}
+
+void test_should_remove_value_on_next_position() {
+  char *key1 = "a";
+  char *key2 = "k";
+
+  add_HashTable(ht, key1, 10);
+  add_HashTable(ht, key2, 10);
+
+  int8_t removed = remove_HashTable(ht, key2);
+
+  TEST_ASSERT_EQUAL_INT(1, removed);
+
+  int idx1 = hash_HashTable(key1);
+
+  TEST_ASSERT_NULL(ht->buckets[idx1 + 1]);
+}
+
 void setUp() { ht = init_HashTable(); }
 
 void tearDown() { free_HashTable(ht); }
@@ -138,6 +166,8 @@ int main(void) {
   RUN_TEST(test_should_get_value);
   RUN_TEST(test_should_get_value_on_next_position);
   RUN_TEST(test_should_value_exists);
+  RUN_TEST(test_should_remove_value);
+  RUN_TEST(test_should_remove_value_on_next_position);
 
   UNITY_END();
 

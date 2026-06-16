@@ -88,6 +88,21 @@
                                                                                \
   int8_t exists_##HashTableName(HashTableName *ht, const char *key) {          \
     return get_##HashTableName(ht, key) != NULL ? 1 : 0;                       \
+  }                                                                            \
+                                                                               \
+  int8_t remove_##HashTableName(HashTableName *ht, const char *key) {          \
+    int idx = hash_##HashTableName(key);                                       \
+    Data##HashTableName *data = ht->buckets[idx];                              \
+    for (int probe = 0; probe < M; probe++) {                                  \
+      idx = (idx + probe) % M;                                                 \
+      data = ht->buckets[idx];                                                 \
+      if (data != NULL && data->key == key) {                                  \
+        free(data);                                                            \
+        ht->buckets[idx] = NULL;                                               \
+        return 1;                                                              \
+      }                                                                        \
+    }                                                                          \
+    return 0;                                                                  \
   }
 
 #endif // !HASHTABLE_H
