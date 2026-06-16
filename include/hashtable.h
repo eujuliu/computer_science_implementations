@@ -6,18 +6,18 @@
 
 #define H_MEMORY_ERROR "Error allocating memory to hashtable"
 
-#define HASHTABLE(T, hashtable_name, max_buckets)                              \
+#define HASHTABLE(T, HashTableName, M)                                         \
   typedef struct {                                                             \
-    char *key;                                                                 \
+    const char *key;                                                           \
     T value;                                                                   \
-  } Data##hashtable_name;                                                      \
+  } Data##HashTableName;                                                       \
                                                                                \
   typedef struct {                                                             \
-    Data##hashtable_name buckets[max_buckets];                                 \
-  } hashtable_name;                                                            \
+    Data##HashTableName *buckets[M];                                           \
+  } HashTableName;                                                             \
                                                                                \
-  hashtable_name *init_##hashtable_name() {                                    \
-    hashtable_name *hashtable = calloc(1, sizeof(hashtable_name));             \
+  HashTableName *init_##HashTableName() {                                      \
+    HashTableName *hashtable = calloc(1, sizeof(HashTableName));               \
     if (hashtable == NULL) {                                                   \
       perror(H_MEMORY_ERROR);                                                  \
       exit(EXIT_FAILURE);                                                      \
@@ -25,18 +25,49 @@
     return hashtable;                                                          \
   }                                                                            \
                                                                                \
-  void free_##hashtable_name(hashtable_name *ht) { free(ht); }                 \
+  void free_##HashTableName(HashTableName *ht) {                               \
+    for (int i = 0; i < M; i++) {                                              \
+      Data##HashTableName *d = ht->buckets[i];                                 \
+      if (d == NULL) {                                                         \
+        continue;                                                              \
+      }                                                                        \
+      free(ht->buckets[i]);                                                    \
+    }                                                                          \
+    free(ht);                                                                  \
+  }                                                                            \
                                                                                \
-  uint hash_##hashtable_name(const char *key) {                                \
+  uint hash_##HashTableName(const char *key, size_t m) {                       \
     uint hash = 0;                                                             \
-    uint8_t A = 31;                                                            \
+    uint8_t multipler = 37;                                                    \
     size_t len = strlen(key);                                                  \
     for (size_t i = 0; i < len; i++) {                                         \
-      hash = hash * A + key[i];                                                \
+      hash = (hash * multipler + key[i]) % m;                                  \
     }                                                                          \
     return hash;                                                               \
   }                                                                            \
                                                                                \
-  uint get_index##hashtable_name(uint hash) { return hash % max_buckets; }
+  void add_##HashTableName(HashTableName *ht, const char *key, T value) {      \
+    uint idx = hash_##HashTableName(key, M);                                   \
+    Data##HashTableName *data = ht->buckets[idx];                              \
+    for (int i = 0; i < M; i++) {                                              \
+      idx = (idx + i) % M;                                                     \
+      data = ht->buckets[idx];                                                 \
+      if (data == NULL) {                                                      \
+        data = calloc(1, sizeof(Data##HashTableName));                         \
+        if (data == NULL) {                                                    \
+          perror(H_MEMORY_ERROR);                                              \
+          return;                                                              \
+        }                                                                      \
+        data->key = key;                                                       \
+        data->value = value;                                                   \
+        ht->buckets[idx] = data;                                               \
+        return;                                                                \
+      }                                                                        \
+      if (data->key == key) {                                                  \
+        data->value = value;                                                   \
+      }                                                                        \
+    }                                                                          \
+  }                                                                            \
+  \
 
 #endif // !HASHTABLE_H
