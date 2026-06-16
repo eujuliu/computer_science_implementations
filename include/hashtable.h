@@ -36,38 +36,58 @@
     free(ht);                                                                  \
   }                                                                            \
                                                                                \
-  uint hash_##HashTableName(const char *key, size_t m) {                       \
+  uint hash_##HashTableName(const char *key) {                                 \
     uint hash = 0;                                                             \
     uint8_t multipler = 37;                                                    \
     size_t len = strlen(key);                                                  \
     for (size_t i = 0; i < len; i++) {                                         \
-      hash = (hash * multipler + key[i]) % m;                                  \
+      hash = (hash * multipler + key[i]) % M;                                  \
     }                                                                          \
     return hash;                                                               \
   }                                                                            \
                                                                                \
-  void add_##HashTableName(HashTableName *ht, const char *key, T value) {      \
-    uint idx = hash_##HashTableName(key, M);                                   \
+  DataHashTable *add_##HashTableName(HashTableName *ht, const char *key,       \
+                                     T value) {                                \
+    uint idx = hash_##HashTableName(key);                                      \
     Data##HashTableName *data = ht->buckets[idx];                              \
-    for (int i = 0; i < M; i++) {                                              \
-      idx = (idx + i) % M;                                                     \
+    for (int probe = 0; probe < M; probe++) {                                  \
+      idx = (idx + probe) % M;                                                 \
       data = ht->buckets[idx];                                                 \
       if (data == NULL) {                                                      \
         data = calloc(1, sizeof(Data##HashTableName));                         \
         if (data == NULL) {                                                    \
           perror(H_MEMORY_ERROR);                                              \
-          return;                                                              \
+          return NULL;                                                         \
         }                                                                      \
         data->key = key;                                                       \
         data->value = value;                                                   \
         ht->buckets[idx] = data;                                               \
-        return;                                                                \
+        return data;                                                           \
       }                                                                        \
       if (data->key == key) {                                                  \
         data->value = value;                                                   \
+        return data;                                                           \
       }                                                                        \
     }                                                                          \
+    return data;                                                               \
   }                                                                            \
-  \
+                                                                               \
+  Data##HashTableName *get_##HashTableName(HashTableName *ht,                  \
+                                           const char *key) {                  \
+    int idx = hash_##HashTableName(key);                                       \
+    Data##HashTableName *data = ht->buckets[idx];                              \
+    for (int probe = 0; probe < M; probe++) {                                  \
+      idx = (idx + probe) % M;                                                 \
+      data = ht->buckets[idx];                                                 \
+      if (data != NULL && data->key == key) {                                  \
+        return data;                                                           \
+      }                                                                        \
+    }                                                                          \
+    return NULL;                                                               \
+  }                                                                            \
+                                                                               \
+  int8_t exists_##HashTableName(HashTableName *ht, const char *key) {          \
+    return get_##HashTableName(ht, key) != NULL ? 1 : 0;                       \
+  }
 
 #endif // !HASHTABLE_H
