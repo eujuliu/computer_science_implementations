@@ -18,15 +18,7 @@ int get_bit(int n, int pos) { return (n & (1 << pos)) >> pos; }
 int set_bit(int n, int pos) { return n | (1 << pos); }
 
 uint8_t clear_bit(int n, int pos) {
-  uint mask = ~0u;
-
-  for (int i = 0; i <= pos; i++) {
-    mask = mask << 1;
-    if (i > 0) {
-      mask |= 1;
-    }
-  }
-
+  uint mask = ~(1 << pos);
   return n & mask;
 }
 
