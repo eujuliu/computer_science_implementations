@@ -22,7 +22,14 @@ uint8_t clear_bit(int n, int pos) {
   return n & mask;
 }
 
-uint8_t popcount(uint n) {}
+uint8_t popcount(uint n) {
+  uint8_t count = 0;
+  while (n) {
+    count += (n & 1);
+    n >>= 1;
+  }
+  return count;
+}
 
 uint8_t is_power_of_two(uint n) {}
 uint unique(uint *nums) {}

@@ -60,6 +60,14 @@ void test_should_clear_bit() {
   TEST_ASSERT_EQUAL_INT(14, result1);
 }
 
+void test_should_count() {
+  int result = popcount(14);
+  int result1 = popcount(30);
+
+  TEST_ASSERT_EQUAL_INT(3, result);
+  TEST_ASSERT_EQUAL_INT(4, result1);
+}
+
 void setUp() {}
 
 void tearDown() {}
@@ -76,6 +84,7 @@ int main(void) {
   RUN_TEST(test_should_get_bit);
   RUN_TEST(test_should_set_bit);
   RUN_TEST(test_should_clear_bit);
+  RUN_TEST(test_should_count);
 
   UNITY_END();
 
