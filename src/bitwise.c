@@ -1,20 +1,34 @@
 #include "bitwise.h"
+
 #include <stdio.h>
 
 uint8_t is_even(int n) {
   if ((n & 1) == 0) {
     return 1;
   }
-
   return 0;
 }
 
-uint8_t mul2(int n) {}
-uint8_t div2(int n) {}
+int mul2(int n) { return n << 1; }
 
-uint8_t get_bit(int n, int pos) {}
-uint8_t set_bit(int n, int pos) {}
-uint8_t clear_bit(int n, int pos) {}
+int div2(int n) { return n >> 1; }
+
+int get_bit(int n, int pos) { return (n & (1 << pos)) >> pos; }
+
+int set_bit(int n, int pos) { return n | (1 << pos); }
+
+uint8_t clear_bit(int n, int pos) {
+  uint mask = ~0u;
+
+  for (int i = 0; i <= pos; i++) {
+    mask = mask << 1;
+    if (i > 0) {
+      mask |= 1;
+    }
+  }
+
+  return n & mask;
+}
 
 uint8_t popcount(uint n) {}
 
