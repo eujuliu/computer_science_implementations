@@ -68,6 +68,24 @@ void test_should_count() {
   TEST_ASSERT_EQUAL_INT(4, result1);
 }
 
+void test_should_be_power_of_two() {
+  int result = is_power_of_two(0);
+  int result1 = is_power_of_two(1);
+  int result2 = is_power_of_two(2);
+  int result3 = is_power_of_two(4);
+  int result4 = is_power_of_two(8);
+  int result5 = is_power_of_two(10);
+  int result6 = is_power_of_two(11);
+
+  TEST_ASSERT_EQUAL_INT(1, result);
+  TEST_ASSERT_EQUAL_INT(1, result1);
+  TEST_ASSERT_EQUAL_INT(1, result2);
+  TEST_ASSERT_EQUAL_INT(1, result3);
+  TEST_ASSERT_EQUAL_INT(1, result4);
+  TEST_ASSERT_EQUAL_INT(0, result5);
+  TEST_ASSERT_EQUAL_INT(0, result6);
+}
+
 void setUp() {}
 
 void tearDown() {}
@@ -85,6 +103,7 @@ int main(void) {
   RUN_TEST(test_should_set_bit);
   RUN_TEST(test_should_clear_bit);
   RUN_TEST(test_should_count);
+  RUN_TEST(test_should_be_power_of_two);
 
   UNITY_END();
 

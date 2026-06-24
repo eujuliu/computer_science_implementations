@@ -31,7 +31,8 @@ uint8_t popcount(uint n) {
   return count;
 }
 
-uint8_t is_power_of_two(uint n) {}
+uint8_t is_power_of_two(uint n) { return (n & (n - 1)) == 0; }
+
 uint unique(uint *nums) {}
 void swap(int *a, int *b) {}
 int reverse(int n) {}
