@@ -86,6 +86,23 @@ void test_should_be_power_of_two() {
   TEST_ASSERT_EQUAL_INT(0, result6);
 }
 
+void test_should_find_unique_int() {
+  uint nums[] = {5, 1, 1, 3, 4, 3, 5};
+  size_t len = sizeof(nums) / sizeof(nums[0]);
+  uint num = unique(nums, len);
+
+  TEST_ASSERT_EQUAL_UINT(4, num);
+}
+
+void test_should_not_find_unique_int() {
+  uint nums[] = {4, 1, 3, 1, 3, 4, 5, 5};
+  size_t len = sizeof(nums) / sizeof(nums[0]);
+
+  uint num = unique(nums, len);
+
+  TEST_ASSERT_EQUAL_UINT(0, num);
+}
+
 void setUp() {}
 
 void tearDown() {}
@@ -104,6 +121,8 @@ int main(void) {
   RUN_TEST(test_should_clear_bit);
   RUN_TEST(test_should_count);
   RUN_TEST(test_should_be_power_of_two);
+  RUN_TEST(test_should_find_unique_int);
+  RUN_TEST(test_should_not_find_unique_int);
 
   UNITY_END();
 

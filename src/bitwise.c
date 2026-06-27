@@ -1,5 +1,4 @@
 #include "bitwise.h"
-
 #include <stdio.h>
 
 uint8_t is_even(int n) {
@@ -33,7 +32,15 @@ uint8_t popcount(uint n) {
 
 uint8_t is_power_of_two(uint n) { return (n & (n - 1)) == 0; }
 
-uint unique(uint *nums) {}
+uint unique(uint *nums, size_t len) {
+  int acc = 0;
+  for (int i = 0; i < len; i++) {
+    acc ^= nums[i];
+  }
+
+  return acc;
+}
+
 void swap(int *a, int *b) {}
 int reverse(int n) {}
 int highest_bit(int n) {}
