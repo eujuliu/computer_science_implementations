@@ -103,6 +103,24 @@ void test_should_not_find_unique_int() {
   TEST_ASSERT_EQUAL_UINT(0, num);
 }
 
+void test_should_not_find_unique_cause_is_empty() {
+  uint nums[] = {};
+  size_t len = sizeof(nums) / sizeof(nums[0]);
+
+  uint num = unique(nums, len);
+
+  TEST_ASSERT_EQUAL_UINT(0, num);
+}
+
+void test_should_swap_values() {
+  int a = 5;
+  int b = 9;
+  swap(&a, &b);
+
+  TEST_ASSERT_EQUAL_INT(b, 5);
+  TEST_ASSERT_EQUAL_INT(a, 9);
+}
+
 void setUp() {}
 
 void tearDown() {}
@@ -123,6 +141,8 @@ int main(void) {
   RUN_TEST(test_should_be_power_of_two);
   RUN_TEST(test_should_find_unique_int);
   RUN_TEST(test_should_not_find_unique_int);
+  RUN_TEST(test_should_not_find_unique_cause_is_empty);
+  RUN_TEST(test_should_swap_values);
 
   UNITY_END();
 

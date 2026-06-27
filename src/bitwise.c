@@ -33,7 +33,11 @@ uint8_t popcount(uint n) {
 uint8_t is_power_of_two(uint n) { return (n & (n - 1)) == 0; }
 
 uint unique(uint *nums, size_t len) {
-  int acc = 0;
+  // What happens if I do (3 ? 7) ? 3 (change ? By &, |, or ^)
+  // Then, do the same with (3 ? 3) ? 7, same result? The order matters?
+  // What happens if I have tripled numbers? Like 3, 3, 3, 4, 4, 7
+
+  uint acc = 0;
   for (int i = 0; i < len; i++) {
     acc ^= nums[i];
   }
@@ -41,7 +45,12 @@ uint unique(uint *nums, size_t len) {
   return acc;
 }
 
-void swap(int *a, int *b) {}
+void swap(int *a, int *b) {
+  *a = *b ^ *a;
+  *b = *a ^ *b;
+  *a = *b ^ *a;
+}
+
 int reverse(int n) {}
 int highest_bit(int n) {}
 int lowest_bit(int n) {}
