@@ -1,6 +1,8 @@
 #include "../unity/src/unity.h"
 #include "bitwise.h"
 #include <stdint.h>
+#include <stdio.h>
+#include <string.h>
 
 void test_should_return_even() {
   int even = is_even(2);
@@ -121,6 +123,22 @@ void test_should_swap_values() {
   TEST_ASSERT_EQUAL_INT(a, 9);
 }
 
+void test_should_reverse_the_bits() {
+  char *expected = "00110100";
+  int8_t r = reverse(44);
+
+  char actual[9] = "";
+
+  for (int i = 7; i >= 0; i--) {
+    size_t len = strlen(actual);
+    snprintf(actual + len, sizeof(actual) - len, "%u", (r >> i) & 1);
+  }
+
+  printf("%s, %s", expected, actual);
+
+  TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, actual, 8);
+}
+
 void setUp() {}
 
 void tearDown() {}
@@ -143,6 +161,7 @@ int main(void) {
   RUN_TEST(test_should_not_find_unique_int);
   RUN_TEST(test_should_not_find_unique_cause_is_empty);
   RUN_TEST(test_should_swap_values);
+  RUN_TEST(test_should_reverse_the_bits);
 
   UNITY_END();
 

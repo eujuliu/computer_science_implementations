@@ -1,4 +1,6 @@
 #include "bitwise.h"
+#include <limits.h>
+#include <stdint.h>
 #include <stdio.h>
 
 uint8_t is_even(int n) {
@@ -46,12 +48,44 @@ uint unique(uint *nums, size_t len) {
 }
 
 void swap(int *a, int *b) {
-  *a = *b ^ *a;
-  *b = *a ^ *b;
-  *a = *b ^ *a;
+  // Change ? to some of the operators (&, |, ^)
+  // Try (a ? b), then (result ? a), then (result ? b)
+  // This is better than using tmp variable?
+
+  *a ^= *b;
+  *b ^= *a;
+  *a ^= *b;
 }
 
-int reverse(int n) {}
+int8_t reverse(int8_t n) {
+  // You need to mirror (00001110 = 01110000)
+  // Try with 8 bits only
+  // Similar logic at get_bit and set_bit
+  // If bit 7 is set then bit ? is set
+
+  // int8_t result = 0;
+  // int8_t l = (sizeof(n) * CHAR_BIT) - 1;
+  // for (int8_t r = 0; l >= r; r++) {
+  //   if ((n >> r) & 1) {
+  //     result |= (1 << l);
+  //   }
+  //   if ((n >> l) & 1) {
+  //     result |= (1 << r);
+  //   }
+  //   l--;
+  // }
+  // return result;
+
+  int8_t result = 0;
+  int8_t len = (sizeof(n) * CHAR_BIT) - 1;
+  for (int l = len; l >= 0; l--) {
+    if ((n >> l) & 1) {
+      result |= (1 << (len - l));
+    }
+  }
+  return result;
+}
+
 int highest_bit(int n) {}
 int lowest_bit(int n) {}
 uint popcount_bkt(uint n) {}
