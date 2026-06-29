@@ -57,15 +57,15 @@ void swap(int *a, int *b) {
   *a ^= *b;
 }
 
-int8_t reverse(int8_t n) {
+uint8_t reverse(uint8_t n) {
   // You need to mirror (00001110 = 01110000)
   // Try with 8 bits only
   // Similar logic at get_bit and set_bit
   // If bit 7 is set then bit ? is set
 
-  // int8_t result = 0;
-  // int8_t l = (sizeof(n) * CHAR_BIT) - 1;
-  // for (int8_t r = 0; l >= r; r++) {
+  // uint8_t result = 0;
+  // uint8_t l = (sizeof(n) * CHAR_BIT) - 1;
+  // for (uint8_t r = 0; l >= r; r++) {
   //   if ((n >> r) & 1) {
   //     result |= (1 << l);
   //   }
@@ -76,12 +76,14 @@ int8_t reverse(int8_t n) {
   // }
   // return result;
 
-  int8_t result = 0;
-  int8_t len = (sizeof(n) * CHAR_BIT) - 1;
+  if (!n) {
+    return n;
+  }
+
+  uint8_t result = 0;
+  uint8_t len = (sizeof(n) * CHAR_BIT) - 1;
   for (int l = len; l >= 0; l--) {
-    if ((n >> l) & 1) {
-      result |= (1 << (len - l));
-    }
+    result |= (((n >> l) & 1) << (len - l));
   }
   return result;
 }

@@ -17,7 +17,7 @@ uint8_t is_power_of_two(uint n);
 
 uint unique(uint *nums, size_t len);
 void swap(int *a, int *b);
-int8_t reverse(int8_t n);
+uint8_t reverse(uint8_t n);
 int highest_bit(int n);
 int lowest_bit(int n);
 uint popcount_bkt(uint n);
