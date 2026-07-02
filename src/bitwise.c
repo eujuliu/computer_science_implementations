@@ -88,8 +88,28 @@ uint8_t reverse(uint8_t n) {
   return result;
 }
 
-int highest_bit(int n) {}
-int lowest_bit(int n) {}
+uint highest_bit(uint n) {
+  // What is the highest (left most?)
+  // Which power of two fits inside the number?
+  // How many bits are necessary to store 44? 101100? 6?
+  // If instead of 44 (101100) I have 63 (111111)?
+
+  n |= (n >> 1);
+  n |= (n >> 2);
+  n |= (n >> 4);
+  n |= (n >> 8);
+  n |= (n >> 16);
+
+  return n - (n >> 1);
+}
+
+uint8_t lowest_bit(uint n) {
+  //   44  &  43   =   40 what disappeared?
+  // 101100 101011 = 101000
+
+  return n ^ (n & n - 1);
+}
+
 uint popcount_bkt(uint n) {}
 uint next_pw_2(int n) {}
 

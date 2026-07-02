@@ -153,6 +153,20 @@ void test_should_not_reverse_cause_is_zero() {
   TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, actual, 8);
 }
 
+void test_should_know_the_highest_bit() {
+  uint highest = highest_bit(44);
+
+  TEST_ASSERT_EQUAL_UINT(32, highest);
+}
+
+void test_should_know_the_lowest_bit() {
+  uint lowest = lowest_bit(44);
+  uint lowest1 = lowest_bit(40);
+
+  TEST_ASSERT_EQUAL_UINT(4, lowest);
+  TEST_ASSERT_EQUAL_UINT(8, lowest1);
+}
+
 void setUp() {}
 
 void tearDown() {}
@@ -177,6 +191,8 @@ int main(void) {
   RUN_TEST(test_should_swap_values);
   RUN_TEST(test_should_reverse_the_bits);
   RUN_TEST(test_should_not_reverse_cause_is_zero);
+  RUN_TEST(test_should_know_the_highest_bit);
+  RUN_TEST(test_should_know_the_lowest_bit);
 
   UNITY_END();
 
