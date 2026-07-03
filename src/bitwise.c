@@ -110,7 +110,16 @@ uint8_t lowest_bit(uint n) {
   return n ^ (n & n - 1);
 }
 
-uint popcount_bkt(uint n) {}
+uint popcount_bkt(uint n) {
+  // 44 & 43, how many set bits disappeared?
+  // then 43 & 42, how many now?
+  uint count = 0;
+  while (n) {
+    count += 1;
+    n &= n - 1;
+  }
+  return count;
+}
 uint next_pw_2(int n) {}
 
 int set_bitset(int bs, int pos) {}

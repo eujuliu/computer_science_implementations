@@ -167,6 +167,16 @@ void test_should_know_the_lowest_bit() {
   TEST_ASSERT_EQUAL_UINT(8, lowest1);
 }
 
+void test_should_popcount_with_bkt() {
+  uint result = popcount_bkt(44);
+  uint result1 = popcount_bkt(63);
+  uint result2 = popcount_bkt(32);
+
+  TEST_ASSERT_EQUAL_UINT(3, result);
+  TEST_ASSERT_EQUAL_UINT(6, result1);
+  TEST_ASSERT_EQUAL_UINT(1, result2);
+}
+
 void setUp() {}
 
 void tearDown() {}
@@ -193,6 +203,7 @@ int main(void) {
   RUN_TEST(test_should_not_reverse_cause_is_zero);
   RUN_TEST(test_should_know_the_highest_bit);
   RUN_TEST(test_should_know_the_lowest_bit);
+  RUN_TEST(test_should_popcount_with_bkt);
 
   UNITY_END();
 
