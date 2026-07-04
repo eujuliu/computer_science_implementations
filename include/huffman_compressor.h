@@ -1,0 +1,4 @@
+#ifndef HUFFMAN_COMPRESS_H
+#define HUFFMAN_COMPRESS_H
+
+#endif // !HUFFMAN_COMPRESS_H

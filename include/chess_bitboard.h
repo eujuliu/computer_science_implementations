@@ -1,0 +1,4 @@
+#ifndef CHESS_BITBOARD_H
+#define CHESS_BITBOARD_H
+
+#endif // !CHESS_BITBOARD_H

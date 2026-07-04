@@ -177,6 +177,18 @@ void test_should_popcount_with_bkt() {
   TEST_ASSERT_EQUAL_UINT(1, result2);
 }
 
+void test_should_return_the_next_power_of_two() {
+  uint next = next_pw_2(1);
+  uint next1 = next_pw_2(15);
+  uint next2 = next_pw_2(32);
+  uint next3 = next_pw_2(100);
+
+  TEST_ASSERT_EQUAL_UINT(2, next);
+  TEST_ASSERT_EQUAL_UINT(16, next1);
+  TEST_ASSERT_EQUAL_UINT(64, next2);
+  TEST_ASSERT_EQUAL_UINT(128, next3);
+}
+
 void setUp() {}
 
 void tearDown() {}
@@ -204,6 +216,7 @@ int main(void) {
   RUN_TEST(test_should_know_the_highest_bit);
   RUN_TEST(test_should_know_the_lowest_bit);
   RUN_TEST(test_should_popcount_with_bkt);
+  RUN_TEST(test_should_return_the_next_power_of_two);
 
   UNITY_END();
 

@@ -29,4 +29,12 @@ int test_bitset(int bs, int pos);
 
 uint *two_unique(int *nums);
 
+uint32_t rol(uint32_t n, int k); // rotate left
+uint32_t ror(uint32_t n, int k); // rotate right
+uint8_t parity(
+    uint32_t n); // Returns whether there are an odd or even number of set bits.
+uint8_t ctz(uint32_t n); // Count Trailing Zeros
+uint8_t clz(uint32_t n); // Count Leading Zeros
+uint32_t next_same_popcount(uint32_t n);
+
 #endif // BITWISE_H!
