@@ -189,6 +189,15 @@ void test_should_return_the_next_power_of_two() {
   TEST_ASSERT_EQUAL_UINT(128, next3);
 }
 
+void test_should_find_two_unique() {
+  uint values[] = {3, 7, 5, 3, 8, 5};
+  size_t len = sizeof(values) / sizeof(values[0]);
+  uint *result = two_unique(values, len);
+
+  TEST_ASSERT_EQUAL_UINT(result[0], 7);
+  TEST_ASSERT_EQUAL_UINT(8, result[1]);
+}
+
 void setUp() {}
 
 void tearDown() {}
@@ -217,6 +226,7 @@ int main(void) {
   RUN_TEST(test_should_know_the_lowest_bit);
   RUN_TEST(test_should_popcount_with_bkt);
   RUN_TEST(test_should_return_the_next_power_of_two);
+  RUN_TEST(test_should_find_two_unique);
 
   UNITY_END();
 

@@ -23,18 +23,14 @@ uint8_t lowest_bit(uint n);
 uint popcount_bkt(uint n);
 uint next_pw_2(int n);
 
-int set_bitset(int bs, int pos);
-int clear_bitset(int bs, int pos);
-int test_bitset(int bs, int pos);
-
-uint *two_unique(int *nums);
+uint *two_unique(uint nums[], size_t len);
 
 uint32_t rol(uint32_t n, int k); // rotate left
 uint32_t ror(uint32_t n, int k); // rotate right
 uint8_t parity(
     uint32_t n); // Returns whether there are an odd or even number of set bits.
-uint8_t ctz(uint32_t n); // Count Trailing Zeros
-uint8_t clz(uint32_t n); // Count Leading Zeros
-uint32_t next_same_popcount(uint32_t n);
+uint8_t ctz(uint32_t n);                 // Count Trailing Zeros
+uint8_t clz(uint32_t n);                 // Count Leading Zeros
+uint32_t next_same_popcount(uint32_t n); // Next Integer with Same Popcount
 
 #endif // BITWISE_H!

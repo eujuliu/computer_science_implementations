@@ -132,8 +132,4 @@ uint next_pw_2(int n) {
   return (n - (n >> 1)) << 1;
 }
 
-int set_bitset(int bs, int pos) {}
-int clear_bitset(int bs, int pos) {}
-int test_bitset(int bs, int pos) {}
-
-uint *two_unique(int *nums) {}
+uint *two_unique(uint nums[], size_t len) {}
