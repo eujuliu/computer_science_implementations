@@ -2,6 +2,7 @@
 #include <limits.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 uint8_t is_even(int n) {
   if ((n & 1) == 0) {
@@ -43,7 +44,6 @@ uint unique(uint *nums, size_t len) {
   for (int i = 0; i < len; i++) {
     acc ^= nums[i];
   }
-
   return acc;
 }
 
@@ -132,4 +132,28 @@ uint next_pw_2(int n) {
   return (n - (n >> 1)) << 1;
 }
 
-uint *two_unique(uint nums[], size_t len) {}
+uint *two_unique(uint nums[], size_t len) {
+  uint mask = 0;
+  for (int i = 0; i < len; i++) {
+    mask ^= nums[i];
+  }
+
+  mask ^= (mask & mask - 1);
+
+  uint g1 = 0;
+  uint g2 = 0;
+  for (int i = 0; i < len; i++) {
+    if (nums[i] & mask) {
+      g1 ^= nums[i];
+      continue;
+    }
+
+    g2 ^= nums[i];
+  }
+
+  uint *result = malloc(sizeof(uint) * 2);
+  result[0] = g1;
+  result[1] = g2;
+
+  return result;
+}

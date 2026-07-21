@@ -190,11 +190,11 @@ void test_should_return_the_next_power_of_two() {
 }
 
 void test_should_find_two_unique() {
-  uint values[] = {3, 7, 5, 3, 8, 5};
+  uint values[] = {3, 5, 3, 5, 7, 8};
   size_t len = sizeof(values) / sizeof(values[0]);
   uint *result = two_unique(values, len);
 
-  TEST_ASSERT_EQUAL_UINT(result[0], 7);
+  TEST_ASSERT_EQUAL_UINT(7, result[0]);
   TEST_ASSERT_EQUAL_UINT(8, result[1]);
 }
 
