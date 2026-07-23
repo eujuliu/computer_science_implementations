@@ -25,8 +25,8 @@ uint next_pw_2(int n);
 
 uint *two_unique(uint nums[], size_t len);
 
-uint32_t rol(uint32_t n, int k); // rotate left
-uint32_t ror(uint32_t n, int k); // rotate right
+uint rol(uint n, uint k); // rotate left
+uint ror(uint n, uint k); // rotate right
 uint8_t parity(
     uint32_t n); // Returns whether there are an odd or even number of set bits.
 uint8_t ctz(uint32_t n);                 // Count Trailing Zeros

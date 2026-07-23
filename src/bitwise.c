@@ -1,5 +1,6 @@
 #include "bitwise.h"
 #include <limits.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -156,4 +157,21 @@ uint *two_unique(uint nums[], size_t len) {
   result[1] = g2;
 
   return result;
+}
+
+uint rol(uint n, uint k) {
+  // uint q = k % 32;
+  //
+  // for (uint i = 0; i < q; i++) {
+  //   uint32_t mask = (0x80000000 & n) >> 31;
+  //
+  //   n = (n << 1) | mask;
+  // }
+  //
+  // return n;
+
+  size_t bits_count = sizeof(n) * CHAR_BIT;
+
+  uint mask = n >> (bits_count - k);
+  return (n << k) | mask;
 }

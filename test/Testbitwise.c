@@ -130,9 +130,9 @@ void test_should_reverse_the_bits() {
   char actual[9] = "";
 
   for (int i = 7; i >= 0; i--) {
-    size_t len = strlen(actual);
-    snprintf(actual + len, sizeof(actual) - len, "%u", (r >> i) & 1);
+    actual[7 - i] = ((r >> i) & 1) + '0';
   }
+  actual[8] = '\0';
 
   TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, actual, 8);
 }
@@ -144,9 +144,9 @@ void test_should_not_reverse_cause_is_zero() {
   char actual[9] = "";
 
   for (int i = 7; i >= 0; i--) {
-    size_t len = strlen(actual);
-    snprintf(actual + len, sizeof(actual) - len, "%u", (r >> i) & 1);
+    actual[7 - i] = ((r >> i) & 1) + '0';
   }
+  actual[8] = '\0';
 
   // printf("%s, %s", expected, actual);
 
@@ -198,6 +198,22 @@ void test_should_find_two_unique() {
   TEST_ASSERT_EQUAL_UINT(8, result[1]);
 }
 
+void test_should_rotate_by_one_32_bits() {
+  char *expected = "00000000000000000000000000000011";
+  uint32_t r = rol(0x80000001u, 1);
+
+  char actual[33] = "";
+
+  for (int i = 31; i >= 0; i--) {
+    actual[31 - i] = ((r >> i) & 1) + '0';
+  }
+  actual[32] = '\0';
+
+  // printf("e %s, a %s", expected, actual);
+
+  TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, actual, 33);
+}
+
 void setUp() {}
 
 void tearDown() {}
@@ -227,6 +243,7 @@ int main(void) {
   RUN_TEST(test_should_popcount_with_bkt);
   RUN_TEST(test_should_return_the_next_power_of_two);
   RUN_TEST(test_should_find_two_unique);
+  RUN_TEST(test_should_rotate_by_one_32_bits);
 
   UNITY_END();
 
