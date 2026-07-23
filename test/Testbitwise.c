@@ -198,7 +198,7 @@ void test_should_find_two_unique() {
   TEST_ASSERT_EQUAL_UINT(8, result[1]);
 }
 
-void test_should_rotate_by_one_32_bits() {
+void test_should_rotate_left_by_one() {
   char *expected = "00000000000000000000000000000011";
   uint32_t r = rol(0x80000001u, 1);
 
@@ -210,6 +210,78 @@ void test_should_rotate_by_one_32_bits() {
   actual[32] = '\0';
 
   // printf("e %s, a %s", expected, actual);
+
+  TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, actual, 33);
+}
+
+void test_should_rotate_left_by_four() {
+  char *expected = "00000000000000000000000000010010";
+  uint32_t r = rol(0x20000001u, 4);
+
+  char actual[33] = "";
+
+  for (int i = 31; i >= 0; i--) {
+    actual[31 - i] = ((r >> i) & 1) + '0';
+  }
+  actual[32] = '\0';
+
+  TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, actual, 33);
+}
+
+void test_should_rotate_left_by_thirty_one() {
+  char *expected = "10000000000000000000000000000001";
+  uint32_t r = rol(0x00000003u, 31);
+
+  char actual[33] = "";
+
+  for (int i = 31; i >= 0; i--) {
+    actual[31 - i] = ((r >> i) & 1) + '0';
+  }
+  actual[32] = '\0';
+
+  // printf("e %s, a %s", expected, actual);
+
+  TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, actual, 33);
+}
+
+void test_should_rotate_right_by_one() {
+  char *expected = "11000000000000000000000000000000";
+  uint32_t r = ror(0x80000001u, 1);
+
+  char actual[33] = "";
+
+  for (int i = 31; i >= 0; i--) {
+    actual[31 - i] = ((r >> i) & 1) + '0';
+  }
+  actual[32] = '\0';
+
+  TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, actual, 33);
+}
+
+void test_should_rotate_right_by_four() {
+  char *expected = "00010010000000000000000000000000";
+  uint32_t r = ror(0x20000001u, 4);
+
+  char actual[33] = "";
+
+  for (int i = 31; i >= 0; i--) {
+    actual[31 - i] = ((r >> i) & 1) + '0';
+  }
+  actual[32] = '\0';
+
+  TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, actual, 33);
+}
+
+void test_should_rotate_right_by_thirty_one() {
+  char *expected = "00000000000000000000000000000110";
+  uint32_t r = ror(0x00000003u, 31);
+
+  char actual[33] = "";
+
+  for (int i = 31; i >= 0; i--) {
+    actual[31 - i] = ((r >> i) & 1) + '0';
+  }
+  actual[32] = '\0';
 
   TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, actual, 33);
 }
@@ -243,7 +315,12 @@ int main(void) {
   RUN_TEST(test_should_popcount_with_bkt);
   RUN_TEST(test_should_return_the_next_power_of_two);
   RUN_TEST(test_should_find_two_unique);
-  RUN_TEST(test_should_rotate_by_one_32_bits);
+  RUN_TEST(test_should_rotate_left_by_one);
+  RUN_TEST(test_should_rotate_left_by_four);
+  RUN_TEST(test_should_rotate_left_by_thirty_one);
+  RUN_TEST(test_should_rotate_right_by_one);
+  RUN_TEST(test_should_rotate_right_by_four);
+  RUN_TEST(test_should_rotate_right_by_thirty_one);
 
   UNITY_END();
 

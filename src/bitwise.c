@@ -176,3 +176,11 @@ uint rol(uint n, uint k) {
   uint mask = n >> (bits_count - q);
   return (n << q) | mask;
 }
+
+uint ror(uint n, uint k) {
+  size_t bits_count = sizeof(n) * CHAR_BIT;
+  uint q = k % bits_count;
+
+  uint mask = n << (bits_count - q);
+  return (n >> q) | mask;
+}
